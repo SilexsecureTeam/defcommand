@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "defcommand",
+  "version": "0.1.0",
+  "identifier": "com.defcommand",
+  "build": {
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build && npx copyfiles splashscreen.html dist/",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "splashscreen",
+        "title": "Loading Defcomm...",
+        "url": "splashscreen.html",
+        "width": 800,
+        "height": 600,
+        "decorations": false,
+        "resizable": false,
+        "center": true,
+        "transparent": true,
+        "visible": false
+      },
+      {
+        "label": "main",
+        "title": "Defcomm App",
+        "url": "index.html",
+        "width": 1000,
+        "height": 600,
+        "minWidth": 600,
+        "minHeight": 400,
+        "decorations": false,
+        "visible": false,
+        "backgroundColor": "#000000",
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+@import url("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+
+@import "tailwindcss";
+@tailwind utilities;
+
+@theme {
+  --color-primary: #36450d;
+  --color-secondary: #ddf2ab;
+  --color-search: #afbe9e;
+  --color-oliveLight: #36460a;
+  --color-oliveDark: #101500;
+  --color-olive: #759719;
+  --color-oliveGreen: #89af20;
+  --color-oliveHover: #c6fc2b;
+  --color-yellow: #cdb30a;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Custom Grid Utility */
+  --grid-template-columns-responsive: repeat(auto-fill, minmax(233px, 1fr));
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow-x: hidden;
+  scroll-behavior: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Style the entire website's scrollbar */
+::-webkit-scrollbar {
+  width: 2px; /* Set the width of the scrollbar */
+  height: 0px; /* Set the height for horizontal scrollbar (if any) */
+}
+
+/* Style the track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #999; /* Light gray track color */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Style the thumb (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #101500; /* Dark gray thumb color */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+/* Style the thumb when it's being hovered */
+::-webkit-scrollbar-thumb:hover {
+  background: #0f5a02; /* Darker color when hovered */
+}
+
+/* Optional: Style for the corner where the vertical and horizontal scrollbars meet */
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+@media (max-width: 600px) {
+  ::-webkit-scrollbar {
+    width: 0px; /* Set the width of the scrollbar */
+    height: 0px; /* Set the height for horizontal scrollbar (if any) */
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+.animate-scan {
+  position: absolute;
+  animation: scan 3s linear infinite;
+}
