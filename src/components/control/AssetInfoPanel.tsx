@@ -1,7 +1,10 @@
 import StatusRow from "./StatusRow";
 import truck from "../../assets/command/truck.svg";
+import { useAddress } from "../../hooks/useAddress";
 
 export default function AssetInfoPanel({ asset }: any) {
+  const { data: location, isLoading } = useAddress(asset?.lat, asset?.lng);
+
   if (!asset) return null;
 
   return (
@@ -17,13 +20,15 @@ export default function AssetInfoPanel({ asset }: any) {
         Contact: {asset.contact_phone}
       </p>
 
-      {/* Location Field */}
+      {/* Location Field - Updated to use TanStack data */}
       <div className="bg-[#1E270A]/60 border border-[#4A5A2A] rounded px-4 py-3 mb-6">
         <p className="text-[10px] uppercase tracking-widest text-oliveGreen">
           Current Location
         </p>
         <p className="text-sm text-white font-medium line-clamp-2">
-          {asset.location?.display_name || "Resolving…"}
+          {isLoading
+            ? "Resolving HQ..."
+            : location?.display_name || "Location Unknown"}
         </p>
       </div>
 
@@ -40,8 +45,6 @@ export default function AssetInfoPanel({ asset }: any) {
         <StatusRow label="Engine Status" value="OPTIMAL" />
         <StatusRow label="Comm Link" value="STABLE" />
         <StatusRow label="Fuel Mass" value="82%" color="text-yellow-500" />
-
-        {/* Live Telemetry */}
         <StatusRow label="Speed" value={`${asset.speed ?? 0} km/h`} />
         <StatusRow label="Heading" value={`${asset.heading ?? 0}°`} />
         <StatusRow label="Last Update" value={asset.trackTime ?? "—"} />

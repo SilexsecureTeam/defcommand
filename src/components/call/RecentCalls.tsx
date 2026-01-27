@@ -13,7 +13,7 @@ const RecentCalls = () => {
   const recentCalls = showAll ? callLogs : callLogs?.slice(0, 5);
   return (
     <div className="lg:col-span-4 bg-oliveLight/40 rounded-xl p-6 border border-white/5 shadow-tactical">
-      <div className="flex justify-between items-end mb-6">
+      <div className="flex justify-between  gap-2 mb-6">
         <h3 className="text-xl font-bold">Recent Calls</h3>
         <button
           onClick={() => setShowAll(!showAll)}

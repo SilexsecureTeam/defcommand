@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export const CommunicationTab = ({
   icon,
   active = false,
@@ -46,10 +48,13 @@ export const CallItem = ({ call, userId }: any) => {
   );
 };
 
-export const AppSquare = ({ icon }: any) => (
-  <div className="w-18 h-18 bg-white rounded-2xl flex items-center justify-center text-black shadow-lg hover:scale-105 transition-transform cursor-pointer">
+export const AppSquare = ({ icon, link }: any) => (
+  <Link
+    to={link}
+    className="w-18 h-18 bg-white rounded-2xl flex items-center justify-center text-black shadow-lg hover:scale-105 transition-transform cursor-pointer"
+  >
     <img src={icon} className="w-[50%]" />
-  </div>
+  </Link>
 );
 
 export const ActionIcon = ({ Icon, label, active = false }: any) => (

@@ -2,8 +2,6 @@ import TelemetryBox from "./TelemetryBox";
 import { formatTime } from "../../utils/formmaters";
 
 export default function TelemetryPanel({ telemetry }: any) {
-  console.log(telemetry);
-
   return (
     <div className="row-span-2 bg-oliveLight py-10 px-5">
       <div className="overflow-hidden relative grid grid-cols-2 gap-4">

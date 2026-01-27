@@ -17,6 +17,7 @@
     "@tauri-apps/plugin-notification": "~2",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-store": "~2",
+    "@tauri-apps/plugin-updater": "~2.9.0",
     "@types/react-leaflet-markercluster": "^4.2.1",
     "@videosdk.live/react-sdk": "^0.6.7",
     "axios": "^1.13.2",

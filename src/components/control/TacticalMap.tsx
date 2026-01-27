@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -10,6 +10,7 @@ import truck from "../../assets/command/truck.svg";
 import mapIcon from "../../assets/command/map.svg";
 import call from "../../assets/calls.png";
 import { Compass } from "lucide-react";
+import { useEmergency } from "../../context/EmergencyContext";
 
 // Fix Leaflet default icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -31,23 +32,20 @@ interface TacticalMapProps {
 /* Fit map to all asset locations */
 function MapFitBounds({ assets }: { assets: any[] }) {
   const map = useMap();
+  const hasFitted = useRef(false);
 
   useEffect(() => {
-    if (!assets?.length) return;
+    if (!assets?.length || hasFitted.current) return;
 
     const points = assets
-      .filter((a) => typeof a.lat === "number" && typeof a.lng === "number")
+      .filter((a) => typeof a.lat === "number")
       .map((a) => [a.lat, a.lng] as [number, number]);
 
-    if (!points.length) return;
-
-    if (points.length === 1) {
-      map.setView(points[0], 16, { animate: true });
-      return;
+    if (points.length > 0) {
+      const bounds = L.latLngBounds(points);
+      map.fitBounds(bounds, { padding: [120, 120], maxZoom: 17 });
+      hasFitted.current = true; // Prevents the map from jumping every time an asset moves
     }
-
-    const bounds = L.latLngBounds(points);
-    map.fitBounds(bounds, { padding: [120, 120], maxZoom: 17, animate: true });
   }, [assets]);
 
   return null;
@@ -60,7 +58,8 @@ export default function TacticalMap({
   onSelect,
   selectedAsset,
 }: TacticalMapProps) {
-  const defaultPosition: [number, number] = [6.5244, 3.3792]; // Lagos fallback
+  const defaultPosition: [number, number] = [6.5244, 3.3792];
+  const { selectedEmergency } = useEmergency();
 
   return (
     <div className="row-span-3 relative bg-[#1A2208] border border-[#4A5A2A] overflow-hidden shadow-inner">
@@ -70,7 +69,7 @@ export default function TacticalMap({
           <div
             className={`w-3 h-3 bg-red-600 rounded-full ${
               isConnected ? "animate-ping" : ""
-            }`}
+            } `}
           />
           {isConnected ? "Transmitting" : "Signal Lost"}
         </div>
@@ -78,7 +77,11 @@ export default function TacticalMap({
         <section className="flex flex-col gap-3 mt-5 p-4 bg-[#2B3A1A]/40 backdrop-blur-md border border-[#4A5A2A]/50 rounded-2xl shadow-2xl">
           <button
             onClick={onEmergency}
-            className="bg-[#C62828] text-white px-4 py-3 text-xs rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-3 border border-red-500/50 font-bold uppercase tracking-tighter shadow-[0_5px_15px_rgba(198,40,40,0.4)]"
+            className={`bg-[#C62828] text-white px-4 py-3 text-xs rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-3 border border-red-500/50 font-bold uppercase tracking-tighter shadow-[0_5px_15px_rgba(198,40,40,0.4)] ${
+              selectedEmergency
+                ? "bg-[#C62828] border-red-400 text-white shadow-[0_0_25px_rgba(198,40,40,0.8)] animate-pulse"
+                : "bg-[#3b3b3b] border-white/10 text-white/70 hover:brightness-110"
+            }`}
           >
             <img src={emergency} className="w-5" alt="" /> Emergency Alert
           </button>

@@ -12,3 +12,10 @@ export interface LocationData {
   lat?: number;
   lon?: number;
 }
+
+export interface EmergencyEvent {
+  id: string; // Firebase / backend ID
+  senderId: string; // contact_id_encrypt
+  isEmergency: boolean;
+  timestamp: string; // ISO string
+}

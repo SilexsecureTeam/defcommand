@@ -8,22 +8,28 @@ import { ChatProvider } from "../context/ChatContext";
 import { StoreProvider } from "../context/StoreContext";
 import { GroupProvider } from "../context/GroupContext";
 import CallCenter from "../pages/dashboard/CallCenter";
+import { EmergencyProvider, useEmergency } from "../context/EmergencyContext";
+import EmergencyOverlay from "../components/control/EmergencyOverlay";
 
 const DashboardRoute = () => {
   return (
     <StoreProvider>
       <ChatProvider>
         <GroupProvider>
-          <Routes>
-            <Route path="/" element={<SecureRoute />}>
-              <Route element={<DashboardLayout />}>
-                <Route path="/home" element={<Dashboard />} />
-                <Route path="/call" element={<SecureCall />} />
-                <Route path="/call-center" element={<CallCenter />} />
+          <EmergencyProvider>
+            <EmergencyOverlay />
+            <Routes>
+              <Route path="/" element={<SecureRoute />}>
+                <Route element={<DashboardLayout />}>
+                  <Route path="/home" element={<Dashboard />} />
+                  <Route path="/call" element={<SecureCall />} />
+                  <Route path="/call-center" element={<CallCenter />} />
+                </Route>
+
+                <Route path="/control-center" element={<ControlCenter />} />
               </Route>
-              <Route path="/control-center" element={<ControlCenter />} />
-            </Route>
-          </Routes>
+            </Routes>
+          </EmergencyProvider>
         </GroupProvider>
       </ChatProvider>
     </StoreProvider>

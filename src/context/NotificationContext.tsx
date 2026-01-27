@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { EmergencyEvent } from "../utils/types/location";
 
 interface NotificationContextType {
   notifications: any;
@@ -9,6 +10,8 @@ interface NotificationContextType {
   notificationOpen: any;
   setNotificationOpen: any;
   toggleNotificationModal: any;
+  emergencies: any;
+  setEmergencies: any;
 }
 
 export const NotificationContext =
@@ -25,6 +28,9 @@ export const NotificationProvider = ({
   });
 
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [emergencies, setEmergencies] = useState<
+    Record<string, EmergencyEvent>
+  >({});
 
   const toggleNotificationModal = () => {
     // if (!notificationOpen) markAllAsSeen();
@@ -71,6 +77,8 @@ export const NotificationProvider = ({
         notificationOpen,
         setNotificationOpen,
         toggleNotificationModal,
+        emergencies,
+        setEmergencies,
       }}
     >
       {children}

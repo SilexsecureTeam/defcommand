@@ -8,7 +8,7 @@ const RecentApps = () => {
       <h3 className="text-xl font-semibold mb-6 text-center">Recent Apps</h3>
       <div className="flex flex-wrap justify-center gap-3">
         <AppSquare icon={store} />
-        <AppSquare icon={missCall} />
+        <AppSquare icon={missCall} link="/dashboard/call-center" />
         <AppSquare icon={defcomm} />
       </div>
     </div>

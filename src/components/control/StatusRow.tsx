@@ -1,6 +1,8 @@
-import React from "react";
-
-export default function StatusRow({ label, value, color = "text-[#98C630]" }) {
+export default function StatusRow({
+  label,
+  value,
+  color = "text-[#98C630]",
+}: any) {
   return (
     <div className="flex justify-between items-center border-b border-[#2B3A1A] pb-1">
       <span className="text-xs font-bold uppercase tracking-widest text-[#6B7A41]">
