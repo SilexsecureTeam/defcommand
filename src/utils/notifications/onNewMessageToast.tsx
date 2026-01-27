@@ -43,15 +43,15 @@ export const onNewNotificationToast = async ({
     if (permission) {
       let title = "";
       let body = "";
-      let actions: any = [];
+      //let actions: any = [];
 
       if (isCall) {
         title = "📞 Incoming Call";
         body = `${senderName} is calling you`;
-        actions = [
-          { label: "Accept", action: "accept_call" },
-          { label: "Decline", action: "decline_call" },
-        ];
+        // actions = [
+        //   { label: "Accept", action: "accept_call" },
+        //   { label: "Decline", action: "decline_call" },
+        // ];
       } else if (isMention) {
         title = `💬 ${groupName} (Mention)`;
         body = `${senderName} mentioned you: ${safeMessage}`;

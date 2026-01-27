@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ref, onValue, off } from "firebase/database";
+import { ref, off } from "firebase/database";
 import { db } from "../services/firebase";
 
 export interface LiveAsset {
@@ -13,25 +13,25 @@ export interface LiveAsset {
 }
 
 export function useFleetTracking() {
-  const [assets, setAssets] = useState<Record<string, LiveAsset>>({});
-  const [isConnected, setIsConnected] = useState(false);
+  const [assets, _setAssets] = useState<Record<string, LiveAsset>>({});
+  const [isConnected, _setIsConnected] = useState(false);
 
   useEffect(() => {
     const liveRef = ref(db, "drivers_live");
 
-    const unsub = onValue(liveRef, (snapshot) => {
-      if (!snapshot.exists()) {
-        setAssets({});
-        setIsConnected(false);
-        return;
-      }
+    // const unsub = onValue(liveRef, (snapshot) => {
+    //   if (!snapshot.exists()) {
+    //     setAssets({});
+    //     setIsConnected(false);
+    //     return;
+    //   }
 
-      const data = snapshot.val();
-      console.log(data);
+    //   const data = snapshot.val();
+    //   console.log(data);
 
-      setAssets(data);
-      setIsConnected(true);
-    });
+    //   setAssets(data);
+    //   setIsConnected(true);
+    // });
 
     return () => off(liveRef);
   }, []);
