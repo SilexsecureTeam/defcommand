@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const SecureRoute = () => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
 
   const location = useLocation();
 

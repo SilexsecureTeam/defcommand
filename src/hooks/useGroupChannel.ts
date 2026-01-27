@@ -116,7 +116,11 @@ const useGroupChannels = ({ groups, token }: any) => {
                   message: data.message, // ensure latest message is set
                   is_my_chat: isMyChat ? "yes" : "no",
                 },
-              ].sort((a, b) => new Date(a.created_at) - new Date(b.created_at)),
+              ].sort(
+                (a, b) =>
+                  new Date(a.created_at).getTime() -
+                  new Date(b.created_at).getTime(),
+              ),
             };
 
             return {

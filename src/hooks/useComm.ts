@@ -5,10 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 import { onSuccess } from "../utils/notifications/OnSuccess";
 import { onFailure } from "../utils/notifications/OnFailure";
 import { extractErrorMessage } from "../utils/formmaters";
-import { CommContext } from "../context/CommContext";
 
 const useComm = () => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
 
   const token = authDetails?.access_token;
   const client = axiosClient(token);
@@ -34,7 +33,7 @@ const useComm = () => {
       queryKey: ["channelList Active"],
       queryFn: async () => {
         const { data } = await client.get(
-          "/walkietalkie/channellistinvited/active"
+          "/walkietalkie/channellistinvited/active",
         );
         return data?.data || [];
       },
@@ -50,7 +49,7 @@ const useComm = () => {
       queryKey: ["channelList Invited Pending"],
       queryFn: async () => {
         const { data } = await client.get(
-          "/walkietalkie/channellistinvited/pending"
+          "/walkietalkie/channellistinvited/pending",
         );
         return data?.data || [];
       },
@@ -66,7 +65,7 @@ const useComm = () => {
     mutationFn: (payload) =>
       client.post("/walkietalkie/channelcreate", payload),
     onSuccess: () => {
-      queryClient.invalidateQueries(["channelList Active"]);
+      queryClient.invalidateQueries(["channelList Active"] as any);
       onSuccess({
         message: "Comm channel successfully created!",
         success: "New channel added",
@@ -84,7 +83,7 @@ const useComm = () => {
     mutationFn: (payload) =>
       client.post("/walkietalkie/channelinvite", payload),
     onSuccess: () => {
-      queryClient.invalidateQueries(["channelList Active"]);
+      queryClient.invalidateQueries(["channelList Active"] as any);
     },
     onError: (err) => {
       onFailure({
@@ -97,8 +96,8 @@ const useComm = () => {
     mutationFn: (payload) =>
       client.post("/walkietalkie/channelinvitedstatus", payload),
     onSuccess: () => {
-      queryClient.invalidateQueries(["channelList Active"]);
-      queryClient.invalidateQueries(["channelList Invited Pending"]);
+      queryClient.invalidateQueries(["channelList Active"] as any);
+      queryClient.invalidateQueries(["channelList Invited Pending"] as any);
       onSuccess({
         message: "Channel invitation status updated!",
         success: "Updated successfully",
@@ -116,7 +115,7 @@ const useComm = () => {
     mutationFn: (channelId) =>
       client.get(`/walkietalkie/channedelete/${channelId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["channelList Active"]);
+      queryClient.invalidateQueries(["channelList Active"] as any);
       onSuccess({
         message: "Channel deleted successfully!",
         success: "Deleted",
@@ -153,7 +152,7 @@ const useComm = () => {
         message: "Channel Connected",
         success: `You are now subscribed to the channel.`,
       });
-      queryClient.invalidateQueries(["subscriberActive"]);
+      queryClient.invalidateQueries(["subscriberActive"] as any);
     },
     onError: (err) => {
       onFailure({
@@ -174,12 +173,12 @@ const useComm = () => {
     },
   });
 
-  const getSubscriberActive = (channelId) =>
+  const getSubscriberActive = (channelId: any) =>
     useQuery({
       queryKey: ["subscriberActive", channelId],
       queryFn: async () => {
         const { data } = await client.get(
-          `/walkietalkie/subscriberActive/${channelId}`
+          `/walkietalkie/subscriberActive/${channelId}`,
         );
         return data?.data || [];
       },

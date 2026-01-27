@@ -4,7 +4,7 @@ import { axiosClient } from "../services/axios-client";
 import { useQuery } from "@tanstack/react-query";
 
 const useCall = () => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
   const token = authDetails?.access_token;
   const client = axiosClient(token);
 

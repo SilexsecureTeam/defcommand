@@ -74,7 +74,9 @@ export const EmergencyProvider = ({
     });
   }, []);
 
-  const acknowledge = useCallback((id: string) => {}, []);
+  const acknowledge = useCallback((id: string) => {
+    console.log(id);
+  }, []);
 
   const value = useMemo(
     () => ({

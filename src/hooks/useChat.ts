@@ -9,7 +9,7 @@ import { axiosClient } from "../services/axios-client";
 import { AuthContext } from "../context/AuthContext";
 
 const useChat = () => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
   const queryClient = useQueryClient();
 
   const groupId = authDetails?.user?.company_id;
@@ -70,9 +70,12 @@ const useChat = () => {
   const getGroupChatMessages = (groupId: unknown) => {
     return useInfiniteQuery({
       queryKey: ["groupMessages", groupId],
-      queryFn: async ({ pageParam = 1 }) => {
+      queryFn: async ({ pageParam = 1 }: any) => {
         // Check cache first before hitting API
-        const cached = queryClient.getQueryData(["groupMessages", groupId]);
+        const cached: any = queryClient.getQueryData([
+          "groupMessages",
+          groupId,
+        ]);
 
         if (cached) {
           const alreadyFetched = cached.pages.find(
@@ -93,7 +96,7 @@ const useChat = () => {
         const { data } = await client.get(url);
         return data;
       },
-      getNextPageParam: (lastPage) => {
+      getNextPageParam: (lastPage: any) => {
         if (!lastPage?.chat_meta) return undefined;
 
         const { current_page, last_page } = lastPage.chat_meta;
@@ -105,7 +108,7 @@ const useChat = () => {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-    });
+    } as any);
   };
 
   const getChatMessages = (peerId: unknown) => {
@@ -113,7 +116,7 @@ const useChat = () => {
       queryKey: ["chatMessages", peerId],
       queryFn: async ({ pageParam = 1 }) => {
         // Check cache first before hitting API
-        const cached = queryClient.getQueryData(["chatMessages", peerId]);
+        const cached: any = queryClient.getQueryData(["chatMessages", peerId]);
 
         if (cached) {
           const alreadyFetched = cached.pages.find(
@@ -134,7 +137,7 @@ const useChat = () => {
         const { data } = await client.get(url);
         return data;
       },
-      getNextPageParam: (lastPage) => {
+      getNextPageParam: (lastPage: any) => {
         if (!lastPage?.chat_meta) return undefined;
 
         const { current_page, last_page } = lastPage.chat_meta;
@@ -146,7 +149,7 @@ const useChat = () => {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-    });
+    } as any);
   };
 
   const getCallLogs = () =>

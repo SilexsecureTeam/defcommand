@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from "react";
+import { useContext, useState, useMemo } from "react";
 import { NotificationContext } from "../../context/NotificationContext";
 import { MdCall, MdMessage } from "react-icons/md";
 import { HiOutlineExclamation } from "react-icons/hi";
@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "../../context/AuthContext";
 
 // Icon mapping for notification type
-const getIcon = (type) => {
+const getIcon = (type: any) => {
   switch (type) {
     case "call":
       return <MdCall className="text-[#2E7D32] text-xl" />;
@@ -20,7 +20,7 @@ const getIcon = (type) => {
 };
 
 // Badge component (reusable + professional)
-const Badge = ({ icon, text, color }) => {
+const Badge = ({ icon, text, color }: any) => {
   return (
     <span
       className={`flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide ${color}`}
@@ -33,19 +33,19 @@ const Badge = ({ icon, text, color }) => {
 
 const NotificationList = () => {
   const { notifications, markAsSeen, clearNotifications, setNotificationOpen } =
-    useContext(NotificationContext);
-  const { authDetails } = useContext(AuthContext);
+    useContext<any>(NotificationContext);
+  const { authDetails } = useContext<any>(AuthContext);
 
   const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
 
   const filteredNotifications = useMemo(() => {
-    if (filter === "read") return notifications.filter((n) => n.seen);
-    if (filter === "unread") return notifications.filter((n) => !n.seen);
+    if (filter === "read") return notifications.filter((n: any) => n.seen);
+    if (filter === "unread") return notifications.filter((n: any) => !n.seen);
     return notifications;
   }, [filter, notifications]);
 
-  const handleNotificationClick = (n, isGroup) => {
+  const handleNotificationClick = (n: any, isGroup: any) => {
     markAsSeen(n?.data?.id);
 
     if (n.message && n.user_type) {
@@ -66,7 +66,7 @@ const NotificationList = () => {
 
   return (
     <div
-      className="p-4 w-80 md:w-[500px] rounded-xl shadow-md border bg-white"
+      className="p-4 w-80 md:w-125 rounded-xl shadow-md border bg-white"
       style={{ borderColor: "#cfd8dc" }}
     >
       {/* Header */}
@@ -109,13 +109,13 @@ const NotificationList = () => {
       ) : (
         <ul className="space-y-2 max-h-96 overflow-y-auto px-1">
           <AnimatePresence initial={false}>
-            {filteredNotifications.map((n) => {
+            {filteredNotifications.map((n: any) => {
               const isGroup = n.user_type === "group";
               const borderColor = n.seen
                 ? "#90a4ae"
                 : isGroup
-                ? "#1976d2"
-                : "#388e3c";
+                  ? "#1976d2"
+                  : "#388e3c";
 
               const bgColor = n.seen ? "#ffffff" : "#f1f8e9";
 

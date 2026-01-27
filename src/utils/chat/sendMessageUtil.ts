@@ -1,5 +1,4 @@
 import { UseMutationResult } from "@tanstack/react-query";
-import { AxiosInstance } from "axios";
 import { onFailure } from "../notifications/OnFailure";
 import { extractErrorMessage } from "../formmaters";
 

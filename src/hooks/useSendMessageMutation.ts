@@ -2,13 +2,12 @@ import { useContext } from "react";
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import { AxiosInstance } from "axios";
 import { queryClient } from "../services/query-client";
-import { onFailure } from "../utils/notifications/OnFailure";
 import { extractErrorMessage } from "../utils/formmaters";
 import { ChatContext } from "../context/ChatContext";
 
 export const useSendMessageMutation = (
   client: AxiosInstance,
-  clearMessageInput: () => void = () => {}
+  clearMessageInput: () => void = () => {},
 ): UseMutationResult<any, unknown, FormData, unknown> => {
   const { setCallMessage } = useContext(ChatContext);
 
@@ -56,7 +55,7 @@ export const useSendMessageMutation = (
 
           // Avoid duplicates
           const exists = lastPage.data.find(
-            (msg: any) => msg.id === messageData.id
+            (msg: any) => msg.id === messageData.id,
           );
           if (exists) return old;
 
@@ -67,7 +66,7 @@ export const useSendMessageMutation = (
           };
 
           return { ...old, pages: newPages };
-        }
+        },
       );
 
       // If it's a call message, store the message in context

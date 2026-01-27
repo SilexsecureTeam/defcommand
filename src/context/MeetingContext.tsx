@@ -11,7 +11,7 @@ export const MeetingProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
   const [isCreator, setIsCreator] = useState(null);
   const [conference, setConference] = useState(null);
   const [me, setMe] = useState(null);
@@ -77,17 +77,19 @@ export const MeetingProvider = ({
     >
       <SDKMeetingProvider
         key={`${token}-${providerMeetingId || "test"}`}
-        config={{
-          meetingId: providerMeetingId,
-          name: authDetails?.user?.name || "Guest User",
-          participantId: authDetails?.user?.id || `guest-${Date.now()}`,
-          micEnabled: false,
-          webcamEnabled: false,
-          mode: "SEND_AND_RECV",
-          chatEnabled: true,
-          raiseHandEnabled: true,
-          debugMode: true,
-        }}
+        config={
+          {
+            meetingId: providerMeetingId,
+            name: authDetails?.user?.name || "Guest User",
+            participantId: authDetails?.user?.id || `guest-${Date.now()}`,
+            micEnabled: false,
+            webcamEnabled: false,
+            mode: "SEND_AND_RECV",
+            chatEnabled: true,
+            raiseHandEnabled: true,
+            debugMode: true,
+          } as any
+        }
         token={token || "default"}
       >
         {children}

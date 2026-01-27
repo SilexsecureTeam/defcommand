@@ -2,13 +2,13 @@ import { toast, Slide } from "react-toastify";
 import { IoInformationCircle } from "react-icons/io5";
 import { motion } from "framer-motion";
 
-const PromptToast = ({ title, message }) => (
+const PromptToast = ({ title, message }: any) => (
   <motion.div
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.5 }}
-    className="flex items-center gap-4 p-4 min-w-[280px] bg-gradient-to-r from-gray-100 to-gray-50 shadow-2xl rounded-2xl border border-gray-300 hover:shadow-gray-400/30"
+    className="flex items-center gap-4 p-4 min-w-70 bg-linear-to-r from-gray-100 to-gray-50 shadow-2xl rounded-2xl border border-gray-300 hover:shadow-gray-400/30"
   >
     <motion.div
       initial={{ scale: 0 }}
@@ -25,7 +25,7 @@ const PromptToast = ({ title, message }) => (
   </motion.div>
 );
 
-export const onPrompt = ({ title = "Prompt", message }) => {
+export const onPrompt = ({ title = "Prompt", message }: any) => {
   toast(<PromptToast title={title} message={message} />, {
     position: "top-right",
     hideProgressBar: false,

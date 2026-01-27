@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 export type GroupMember = {
   id: string;
   member_id_encrpt: string;
@@ -43,30 +41,4 @@ export interface ChatMessage {
   tag_user?: string[];
   mentions?: { user_id: string; display: string }[];
   [key: string]: any; // other fields like user_id, user_to, etc.
-}
-
-export const groupMessageType = {
-  msg: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    message: PropTypes.string,
-    type: PropTypes.string,
-    is_file: PropTypes.string,
-    file_name: PropTypes.string,
-    is_my_chat: PropTypes.string,
-    updated_at: PropTypes.string,
-    is_read: PropTypes.string,
-  }).isRequired,
-  sender: PropTypes.object,
-  showAvatar: PropTypes.bool,
-  isLastInGroup: PropTypes.bool,
-  participants: PropTypes.array,
-};
-
-declare global {
-  interface ImportMeta {
-    env: {
-      VITE_BASE_URL: string;
-      [key: string]: any;
-    };
-  }
 }

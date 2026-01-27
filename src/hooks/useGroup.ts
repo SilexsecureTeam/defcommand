@@ -13,7 +13,7 @@ interface Group {
 }
 
 const useGroups = () => {
-  const { authDetails } = useContext(AuthContext);
+  const { authDetails } = useContext<any>(AuthContext);
   const token = authDetails?.access_token;
   const client = axiosClient(token);
   const queryClient = useQueryClient();
@@ -97,7 +97,7 @@ const useGroups = () => {
   const addContactMutation = useMutation({
     mutationFn: (userId: string) => client.get(`/user/contact/add/${userId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["contacts"]);
+      queryClient.invalidateQueries(["contacts"] as any);
       onSuccess({
         message: "Contact Saved!",
         success: "user has been added to contact",
@@ -117,7 +117,7 @@ const useGroups = () => {
     mutationFn: (userId: string) =>
       client.get(`/user/contact/remove/${userId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["contacts"]);
+      queryClient.invalidateQueries(["contacts"] as any);
       onSuccess({
         message: "Contact Removed!",
         success: "user has been removed from contact",
@@ -137,8 +137,8 @@ const useGroups = () => {
     mutationFn: (invitationId: string) =>
       client.get(`/user/group/${invitationId}/accept`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["groups"]);
-      queryClient.invalidateQueries(["pendingInvitations"]);
+      queryClient.invalidateQueries(["groups"] as any);
+      queryClient.invalidateQueries(["pendingInvitations"] as any);
     },
     onError: (err) => {
       onFailure({
@@ -153,7 +153,7 @@ const useGroups = () => {
     mutationFn: (invitationId: string) =>
       client.get(`/user/group/${invitationId}/decline`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["pendingInvitations"]);
+      queryClient.invalidateQueries(["pendingInvitations"] as any);
     },
     onError: (err) => {
       onFailure({

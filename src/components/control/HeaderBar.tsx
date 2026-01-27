@@ -1,7 +1,6 @@
-import { Shield, Eye, ArrowLeft } from "lucide-react";
+import { Eye, ArrowLeft } from "lucide-react";
 
 export default function HeaderBar({
-  isConnected,
   onBack,
 }: {
   isConnected: boolean;

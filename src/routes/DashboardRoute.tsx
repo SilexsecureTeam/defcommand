@@ -8,7 +8,7 @@ import { ChatProvider } from "../context/ChatContext";
 import { StoreProvider } from "../context/StoreContext";
 import { GroupProvider } from "../context/GroupContext";
 import CallCenter from "../pages/dashboard/CallCenter";
-import { EmergencyProvider, useEmergency } from "../context/EmergencyContext";
+import { EmergencyProvider } from "../context/EmergencyContext";
 import EmergencyOverlay from "../components/control/EmergencyOverlay";
 
 const DashboardRoute = () => {

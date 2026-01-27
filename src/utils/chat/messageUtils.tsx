@@ -1,5 +1,3 @@
-// utils/chat/messageUtils.tsx
-import React from "react";
 import { parseHtml } from "../formmaters";
 import { ChatMessage, Participant } from "../types/chat";
 import { JSX } from "react/jsx-runtime";
@@ -7,7 +5,7 @@ export const MENTION_TOKEN_REGEX = /@\[(.+?)\]\(user:([^)]+)\)/g;
 
 export const resolveTaggedUsers = (
   msg: ChatMessage,
-  participants: Participant[] = []
+  participants: Participant[] = [],
 ): { id: string; name: string }[] => {
   const users: { id: string; name: string }[] = [];
 
@@ -20,7 +18,7 @@ export const resolveTaggedUsers = (
     msg.tag_user.forEach((tid) => {
       const found =
         participants.find(
-          (p) => p?.member_id_encrpt === tid || p?.member_id === tid
+          (p) => p?.member_id_encrpt === tid || p?.member_id === tid,
         ) || null;
       if (found) {
         users.push({ id: tid, name: found.member_name || "Unknown" });
@@ -37,16 +35,13 @@ export const resolveTaggedUsers = (
   return [];
 };
 
-const allIdsFor = (p: Participant): string[] =>
-  [p?.member_id_encrpt, p?.member_id].filter(Boolean).map((x) => String(x));
-
 /** escape a string for RegExp */
 const escapeForRegex = (s: string = "") =>
   s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export const renderMessageContent = (
   msg: ChatMessage,
-  participants: Participant[] = []
+  participants: Participant[] = [],
 ) => {
   const rawText = String(msg?.raw_message ?? msg?.message ?? "");
 
@@ -74,12 +69,12 @@ export const renderMessageContent = (
     .filter(Boolean);
 
   const taggedNamesLower = Array.from(
-    new Set(taggedNames.map((n) => n?.toLowerCase()))
+    new Set(taggedNames.map((n) => n?.toLowerCase())),
   );
   const taggedNamesForRegex = taggedNamesLower.map(escapeForRegex);
 
   // remove tokenized mentions
-  let cleaned = rawText.replace(MENTION_TOKEN_REGEX, (full, display, id) => {
+  let cleaned = rawText.replace(MENTION_TOKEN_REGEX, (_, display, id) => {
     if (tagUsers.some((t) => String(t) === String(id))) {
       return "";
     }
@@ -90,10 +85,10 @@ export const renderMessageContent = (
     const namesGroup = taggedNamesForRegex.join("|");
     const atRegex = new RegExp(
       `(^|\\s)@(${namesGroup})(?=\\s|$|[.,!?;:])`,
-      "gi"
+      "gi",
     );
 
-    cleaned = cleaned.replace(atRegex, (match, before) => before || "");
+    cleaned = cleaned.replace(atRegex, (_, before) => before || "");
   }
 
   const normalized = cleaned
@@ -132,7 +127,7 @@ export const getPreviewText = (renderedElement: JSX.Element) => {
     if (typeof children === "string") return children;
     if (Array.isArray(children)) {
       return children
-        .map((c) => (typeof c === "string" ? c : c?.props?.children ?? ""))
+        .map((c) => (typeof c === "string" ? c : (c?.props?.children ?? "")))
         .join("");
     }
     return String(renderedElement);
@@ -219,11 +214,11 @@ export const ReplyPreview = ({
   const senderName =
     String(target.user_id) === String(myId)
       ? "You"
-      : participants?.find(
+      : (participants?.find(
           (p) =>
             String(p.member_id) === String(target.user_id) ||
-            String(p.member_id_encrpt) === String(target.user_id)
-        )?.member_name ?? "Anonymous";
+            String(p.member_id_encrpt) === String(target.user_id),
+        )?.member_name ?? "Anonymous");
 
   let preview = "";
   if (target.mss_type === "text")
