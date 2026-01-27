@@ -150,7 +150,7 @@ export default function TacticalMap({
             <div className="flex items-center gap-4">
               <img src={truck} className="w-8 h-8 opacity-80" alt="unit icon" />
               <div>
-                <p className="text-white text-lg font-black tracking-tight leading-none uppercase">
+                <p className="text-white text-lg font-black tracking-tight leading-none uppercase line-clamp-1">
                   {selectedAsset?.contact_name || "Unknown"}
                 </p>
                 <p className="text-[#98C630] text-[10px] font-bold tracking-widest mt-1">
