@@ -9,6 +9,9 @@ import {
 import { ref, update, serverTimestamp } from "firebase/database";
 import { db } from "../services/firebase";
 import useEmergencyFeed from "../hooks/useEmergencyFeed";
+import emergencyAudio from "../utils/notifications/emergencyAudio";
+import emergencyTone from "../assets/audio/emergency.mp3";
+import useChat from "../hooks/useChat";
 
 export interface EmergencyEvent {
   id: string;
@@ -38,11 +41,22 @@ export const EmergencyProvider = ({
   children: React.ReactNode;
 }) => {
   const { allEmergency } = useEmergencyFeed();
+  const { useFetchContacts } = useChat();
+  const { data: contacts } = useFetchContacts();
 
   const [emergencies, setEmergencies] = useState<EmergencyEvent[]>([]);
   const [selectedEmergency, setSelectedEmergency] =
     useState<EmergencyEvent | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  // map contacts by id
+  const contactsById = useMemo(() => {
+    if (!contacts) return {};
+    return contacts.reduce((acc: any, contact: any) => {
+      acc[contact.contact_id_encrypt] = contact;
+      return acc;
+    }, {});
+  }, [contacts]);
 
   useEffect(() => {
     if (!allEmergency) return;
@@ -56,16 +70,22 @@ export const EmergencyProvider = ({
         readableTime: val.readableTime,
         datacenterMessage: val.datacenterMessage,
       }))
-      .sort((a, b) => b.timestamp - a.timestamp);
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .filter((e) => contactsById[e.senderId]); // only include known contacts
 
     setEmergencies(formatted);
 
     const newestPending = formatted.find((e) => e.status === "pending");
-    if (newestPending && !selectedEmergency) {
+    if (
+      newestPending &&
+      (!selectedEmergency || selectedEmergency.id !== newestPending.id)
+    ) {
       setSelectedEmergency(newestPending);
-      // setIsPanelOpen(true);
+      emergencyAudio.play(emergencyTone);
+    } else if (!newestPending) {
+      emergencyAudio.stop();
     }
-  }, [allEmergency]);
+  }, [allEmergency, contactsById]);
 
   const openPanel = useCallback(() => setIsPanelOpen(true), []);
   const closePanel = useCallback(() => setIsPanelOpen(false), []);
