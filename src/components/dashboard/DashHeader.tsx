@@ -4,6 +4,7 @@ import comm from "../../assets/comm.png";
 import { MdFingerprint } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useEmergency } from "../../context/EmergencyContext";
+import TacticalLogo from "../TacticalLogo";
 
 const DashHeader = () => {
   const navigate = useNavigate();
@@ -15,10 +16,7 @@ const DashHeader = () => {
     <div>
       <header className="flex justify-center items-center gap-8 mb-10">
         {/* Branding */}
-        <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Defcomm" className="h-20" />
-          <img src="/xshield.png" alt="xshield" className="h-15" />
-        </div>
+        <TacticalLogo />
       </header>
 
       {/* --- CLOCK & STATUS PANEL --- */}

@@ -1,31 +1,24 @@
 import { useEffect, useState } from "react";
-import { ref, off } from "firebase/database";
+import { ref, off, onValue } from "firebase/database";
 import { db } from "../services/firebase";
-import { EmergencyEvent } from "../utils/types/location";
 
 export default function useEmergencyFeed() {
-  const [allEmergency, _setAllEmergency] = useState<EmergencyEvent[] | null>(
+  const [allEmergency, setAllEmergency] = useState<Record<string, any> | null>(
     null,
   );
-
-  const [isConnected, _setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const emergencyRef = ref(db, "emergency_alerts");
+    const emergencyRef = ref(db, "emergency");
 
-    // const unsubscribe = onValue(emergencyRef, (snapshot) => {
-    //   const data = snapshot.val() || {};
-    //   console.log(data);
-
-    //   setAllEmergency(data); // updates global context
-    //   setIsConnected(!!Object.keys(data).length);
-    // });
+    const unsubscribe = onValue(emergencyRef, (snapshot) => {
+      const data = snapshot.val();
+      setAllEmergency(data);
+      setIsConnected(!!data);
+    });
 
     return () => off(emergencyRef);
   }, []);
 
-  return {
-    allEmergency,
-    isConnected,
-  };
+  return { allEmergency, isConnected };
 }

@@ -10,6 +10,7 @@ const DashboardLayout = () => {
   const { authDetails } = useContext<any>(AuthContext);
   const { useFetchGroups } = useGroups();
   const { data: groups } = useFetchGroups();
+
   useGroupChannels({
     groups,
     token: authDetails?.access_token,

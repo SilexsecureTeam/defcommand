@@ -6,8 +6,18 @@ import {
   useMemo,
   useCallback,
 } from "react";
+import { ref, update, serverTimestamp } from "firebase/database";
+import { db } from "../services/firebase";
 import useEmergencyFeed from "../hooks/useEmergencyFeed";
-import { EmergencyEvent } from "../utils/types/location";
+
+export interface EmergencyEvent {
+  id: string;
+  senderId: string;
+  status: "pending" | "seen";
+  timestamp: number;
+  readableTime?: string;
+  datacenterMessage?: string;
+}
 
 interface EmergencyContextType {
   emergencies: EmergencyEvent[];
@@ -17,6 +27,7 @@ interface EmergencyContextType {
   closePanel: () => void;
   selectEmergency: (id: string) => void;
   acknowledge: (id: string) => void;
+  respond: (id: string, message: string) => void;
 }
 
 const EmergencyContext = createContext<EmergencyContextType | null>(null);
@@ -28,54 +39,61 @@ export const EmergencyProvider = ({
 }) => {
   const { allEmergency } = useEmergencyFeed();
 
-  // Local state for handled/acknowledged alerts
   const [emergencies, setEmergencies] = useState<EmergencyEvent[]>([]);
   const [selectedEmergency, setSelectedEmergency] =
     useState<EmergencyEvent | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Sync feed with local state
   useEffect(() => {
     if (!allEmergency) return;
 
-    // Transform object/feed into a structured array
-    const formatted: EmergencyEvent[] = Object.entries(allEmergency).map(
-      ([id, val]: any) => ({
+    const formatted: EmergencyEvent[] = Object.entries(allEmergency)
+      .map(([id, val]: [string, any]) => ({
         id,
         senderId: val.senderId,
-        isEmergency: val.isEmergency,
+        status: val.status || "pending",
         timestamp: val.timestamp,
-      }),
-    );
+        readableTime: val.readableTime,
+        datacenterMessage: val.datacenterMessage,
+      }))
+      .sort((a, b) => b.timestamp - a.timestamp);
 
     setEmergencies(formatted);
 
-    // Auto-select the most recent active emergency for the HUD overlay
-    const mostRecentActive = [...formatted]
-      .sort(
-        (a, b) =>
-          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
-      )
-      .find((e) => e.isEmergency);
-
-    if (mostRecentActive) {
-      setSelectedEmergency(mostRecentActive);
+    const newestPending = formatted.find((e) => e.status === "pending");
+    if (newestPending && !selectedEmergency) {
+      setSelectedEmergency(newestPending);
+      // setIsPanelOpen(true);
     }
   }, [allEmergency]);
 
   const openPanel = useCallback(() => setIsPanelOpen(true), []);
   const closePanel = useCallback(() => setIsPanelOpen(false), []);
 
-  const selectEmergency = useCallback((id: string) => {
-    setEmergencies((prev) => {
-      const found = prev.find((e) => e.id === id);
-      if (found) setSelectedEmergency(found);
-      return prev;
+  const selectEmergency = useCallback(
+    (id: string) => {
+      setSelectedEmergency(
+        (prev) => emergencies.find((e) => e.id === id) || prev,
+      );
+    },
+    [emergencies],
+  );
+
+  const acknowledge = useCallback(async (id: string) => {
+    const emergencyRef = ref(db, `emergency/${id}`);
+    await update(emergencyRef, {
+      status: "seen",
+      acknowledgedAt: serverTimestamp(),
     });
   }, []);
 
-  const acknowledge = useCallback((id: string) => {
-    console.log(id);
+  const respond = useCallback(async (id: string, message: string) => {
+    const emergencyRef = ref(db, `emergency/${id}`);
+    await update(emergencyRef, {
+      status: "seen",
+      dataCenterResponse: message,
+      respondedAt: serverTimestamp(),
+    });
   }, []);
 
   const value = useMemo(
@@ -87,6 +105,7 @@ export const EmergencyProvider = ({
       closePanel,
       selectEmergency,
       acknowledge,
+      respond,
     }),
     [
       emergencies,
@@ -96,6 +115,7 @@ export const EmergencyProvider = ({
       closePanel,
       selectEmergency,
       acknowledge,
+      respond,
     ],
   );
 

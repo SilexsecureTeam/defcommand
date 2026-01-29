@@ -10,28 +10,33 @@ import { GroupProvider } from "../context/GroupContext";
 import CallCenter from "../pages/dashboard/CallCenter";
 import { EmergencyProvider } from "../context/EmergencyContext";
 import EmergencyOverlay from "../components/control/EmergencyOverlay";
-
+import { MeetingProvider } from "../context/MeetingContext";
+import TacticalCallInterface from "../pages/dashboard/TacticalCallInterface";
 const DashboardRoute = () => {
   return (
     <StoreProvider>
-      <ChatProvider>
-        <GroupProvider>
-          <EmergencyProvider>
-            <EmergencyOverlay />
-            <Routes>
-              <Route path="/" element={<SecureRoute />}>
-                <Route element={<DashboardLayout />}>
-                  <Route path="/home" element={<Dashboard />} />
-                  <Route path="/call" element={<SecureCall />} />
-                  <Route path="/call-center" element={<CallCenter />} />
-                </Route>
+      <MeetingProvider>
+        <ChatProvider>
+          <GroupProvider>
+            <EmergencyProvider>
+              <EmergencyOverlay />
+              <Routes>
+                <Route path="/" element={<SecureRoute />}>
+                  <Route element={<DashboardLayout />}>
+                    <Route path="/home" element={<Dashboard />} />
+                    <Route path="/call" element={<SecureCall />} />
+                    <Route path="/call-center" element={<CallCenter />} />
+                  </Route>
 
-                <Route path="/control-center" element={<ControlCenter />} />
-              </Route>
-            </Routes>
-          </EmergencyProvider>
-        </GroupProvider>
-      </ChatProvider>
+                  <Route path="/control-center" element={<ControlCenter />} />
+                </Route>
+              </Routes>
+
+              <TacticalCallInterface />
+            </EmergencyProvider>
+          </GroupProvider>
+        </ChatProvider>
+      </MeetingProvider>
     </StoreProvider>
   );
 };

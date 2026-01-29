@@ -1,24 +1,30 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Phone, Users } from "lucide-react";
 import useChat from "../../hooks/useChat";
 import { MdClose } from "react-icons/md";
+import { handleSendMessage } from "../../utils/programs";
+import { createMeeting } from "../../services/videosdk";
+import { AuthContext } from "../../context/AuthContext";
 
 interface Contact {
   id: string;
   contact_name: string;
   contact_phone: string;
   contact_email?: string;
+  contact_id_encrypt: string;
 }
 
 type CallMode = "direct" | "conference" | null;
 
 const CallActions = () => {
   const { useFetchContacts } = useChat();
+  const { authDetails } = useContext<any>(AuthContext);
   const { data: contacts = [] } = useFetchContacts();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [callMode, setCallMode] = useState<CallMode>(null);
   const [selectedContacts, setSelectedContacts] = useState<Contact[]>([]);
+  const [isStartingCall, setIsStartingCall] = useState(false); // Loader state
 
   const openModal = (mode: CallMode) => {
     setCallMode(mode);
@@ -34,14 +40,34 @@ const CallActions = () => {
     );
   };
 
-  const handleStartCall = () => {
-    if (callMode === "direct" && selectedContacts[0]) {
-      console.log("Direct Call to", selectedContacts[0]);
-    } else if (callMode === "conference" && selectedContacts.length > 0) {
-      console.log("Conference with", selectedContacts);
+  const handleStartCall = async () => {
+    if (selectedContacts.length === 0) return;
+
+    setIsStartingCall(true); // Start loader
+
+    try {
+      if (callMode === "direct" && selectedContacts[0]) {
+        const token = await createMeeting(); // Async call
+        console.log("Direct Call to", selectedContacts[0]);
+        handleSendMessage(
+          {
+            message: `voice_call|${token}`,
+            chat_user_type: "user",
+            chat_user_id: selectedContacts[0]?.contact_id_encrypt,
+          } as any,
+          authDetails,
+        );
+      } else if (callMode === "conference" && selectedContacts.length > 0) {
+        console.log("Conference with", selectedContacts);
+        // TODO: implement conference call creation
+      }
+    } catch (err) {
+      console.error("Failed to start call:", err);
+    } finally {
+      setIsStartingCall(false); // Stop loader
+      setModalOpen(false);
+      setSelectedContacts([]);
     }
-    setModalOpen(false);
-    setSelectedContacts([]);
   };
 
   return (
@@ -64,7 +90,7 @@ const CallActions = () => {
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-[#0D1204] rounded-2xl w-full max-w-md max-h-[80vh] shadow-xl flex flex-col overflow-hidden">
-            {/* Fixed Header */}
+            {/* Header */}
             <div className="flex justify-between items-center bg-[#1A2208] px-6 py-4 border-b border-[#4A5A2A] sticky top-0 z-10">
               <h2 className="text-white font-bold text-lg">
                 {callMode === "direct" ? "Select Contact" : "Select Contacts"}
@@ -125,15 +151,38 @@ const CallActions = () => {
               >
                 Cancel
               </button>
+
               <button
                 onClick={handleStartCall}
-                disabled={selectedContacts.length === 0}
-                className={`px-4 py-2 rounded-xl text-white transition ${
+                disabled={selectedContacts.length === 0 || isStartingCall}
+                className={`px-4 py-2 rounded-xl text-white transition flex items-center gap-2 ${
                   selectedContacts.length
                     ? "bg-green-600 hover:bg-green-500"
                     : "bg-green-600/40 cursor-not-allowed"
                 }`}
               >
+                {isStartingCall && (
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    />
+                  </svg>
+                )}
                 {callMode === "direct" ? "Call" : "Start Conference"}
               </button>
             </div>

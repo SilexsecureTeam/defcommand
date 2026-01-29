@@ -4,11 +4,15 @@ import { AxiosInstance } from "axios";
 import { queryClient } from "../services/query-client";
 import { extractErrorMessage } from "../utils/formmaters";
 import { ChatContext } from "../context/ChatContext";
+import { axiosClient } from "../services/axios-client";
+import { AuthContext } from "../context/AuthContext";
 
 export const useSendMessageMutation = (
-  client: AxiosInstance,
-  clearMessageInput: () => void = () => {},
+  callback: () => void = () => {},
 ): UseMutationResult<any, unknown, FormData, unknown> => {
+  const { authDetails } = useContext<any>(AuthContext);
+  const token = authDetails?.access_token;
+  const client = axiosClient(token);
   const { setCallMessage } = useContext(ChatContext);
 
   return useMutation({
@@ -79,7 +83,7 @@ export const useSendMessageMutation = (
         });
       }
       // Clear input field if provided
-      clearMessageInput();
+      callback();
     },
 
     onError: (error) => {

@@ -12,7 +12,6 @@ import LoginScreen from "./pages/Login";
 import { emit } from "@tauri-apps/api/event";
 import DashboardRoute from "./routes/DashboardRoute";
 import { AuthProvider } from "./context/AuthContext";
-import RootRedirect from "./routes/RootRedirect";
 import { NotificationProvider } from "./context/NotificationContext";
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
           <div className="bg-red-100 min-h-screen">
             <TitleBar />
             <Routes>
-              <Route path="/" element={<RootRedirect />} />
               <Route path="/login" element={<LoginScreen />} />
               <Route path="/dashboard/*" element={<DashboardRoute />} />
               <Route path="*" element={<Navigate to="/login" />} />

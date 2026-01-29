@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaAngleRight, FaSpinner } from "react-icons/fa";
 import PhoneInput from "react-phone-input-2";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
@@ -6,8 +6,11 @@ import OtpInput from "react-otp-input";
 import { useForm } from "react-hook-form";
 import "react-phone-input-2/lib/style.css";
 import useAuth from "../hooks/useAuth";
+import { AuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export default function LoginScreen() {
+  const { authDetails } = useContext<any>(AuthContext);
   const [syncEnabled, setSyncEnabled] = useState(true);
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("ng");
@@ -65,8 +68,11 @@ export default function LoginScreen() {
     setOtp("");
     setTimer(60);
   };
+  console.log(authDetails);
 
-  return (
+  return authDetails?.user?.role === "user" ? (
+    <Navigate to="/dashboard/home" replace />
+  ) : (
     <div className="relative h-screen w-screen overflow-hidden text-[#e3f5e3]">
       {/* Base Gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#36450D_0%,#111111_70%)]" />

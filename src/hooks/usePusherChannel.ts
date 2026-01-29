@@ -95,14 +95,14 @@ const usePusherChannel = ({ userId, token }: any) => {
 
       // Handle call messages
       if (isCall) {
-        const meetingId = newMessage?.message?.split("CALL_INVITE:")[1];
+        const meetingId = newMessage?.message?.split("voice_call|")[1];
         setCallMessage({
           ...data?.mss_chat,
           meetingId,
-          name: newMessage?.sender?.name || `User ${newMessage?.data?.user_id}`,
-          phone: newMessage?.sender?.phone,
-          user_id: newMessage?.data?.user_id,
           status: "ringing",
+          isMyChat: isMyChat,
+          sender: newMessage?.sender,
+          receiver: newMessage?.receiver,
         });
         audioController.playRingtone(receiverTone, true);
       }

@@ -14,8 +14,9 @@ export interface LocationData {
 }
 
 export interface EmergencyEvent {
-  id: string; // Firebase / backend ID
-  senderId: string; // contact_id_encrypt
-  isEmergency: boolean;
-  timestamp: string; // ISO string
+  id: string;
+  senderId: string;
+  status: "pending" | "resolved" | "active"; // Matches your DB snippet
+  timestamp: number; // Unix epoch from Firebase
+  readableTime: string;
 }

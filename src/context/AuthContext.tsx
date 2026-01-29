@@ -1,88 +1,89 @@
-import {
-  createContext,
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { createContext, useEffect, useState } from "react";
+import { getAuthToken } from "../services/videosdk";
 
-interface AuthContextType {
-  authDetails: any;
-  updateAuth: (newUser: unknown) => void;
-  logoutSignal: boolean;
-  setLogoutSignal: Dispatch<SetStateAction<boolean>>;
-}
-
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<any>(null);
 
 const STORAGE_KEY = "authUser";
-const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24h
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const queryClient = useQueryClient();
+  const [authDetails, setAuthDetails] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [logoutSignal, setLogoutSignal] = useState(false);
-
-  // Read from localStorage on mount WITH expiration check
-  const [authDetails, setAuthDetails] = useState(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return null;
-
-    try {
-      const { user, expiresAt } = JSON.parse(stored);
-
-      // Expired → clear silently
-      if (!expiresAt || Date.now() > expiresAt) {
-        localStorage.removeItem(STORAGE_KEY);
-        return null;
-      }
-
-      return user;
-    } catch {
-      localStorage.removeItem(STORAGE_KEY);
-      return null;
-    }
-  });
-
-  // React Query cache
-  const { data } = useQuery({
-    queryKey: ["authUser"],
-    queryFn: () => Promise.resolve(authDetails),
-    initialData: authDetails,
-    staleTime: 0,
-  });
-
-  // Sync query data with auth state
+  /** Restore auth from localStorage on mount */
   useEffect(() => {
-    if (data !== authDetails) {
-      setAuthDetails(data);
-    }
-  }, [data]);
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return;
 
-  // Update auth + localStorage WITH expiration
-  const updateAuth = (newUser: unknown) => {
-    setAuthDetails(newUser);
-
-    if (newUser) {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          user: newUser,
-          expiresAt: Date.now() + SESSION_DURATION,
-        }),
-      );
-
-      queryClient.setQueryData(["authUser"], newUser);
-    } else {
+      setAuthDetails(JSON.parse(stored));
+    } catch (err) {
+      console.error("Failed to load auth:", err);
       localStorage.removeItem(STORAGE_KEY);
-      queryClient.removeQueries({ queryKey: ["authUser"] });
+    } finally {
+      setIsLoading(false);
     }
+  }, []);
+
+  /** Fetch VideoSDK token when user.id changes */
+  useEffect(() => {
+    const userId = authDetails?.user?.id;
+    if (!userId) return;
+
+    let cancelled = false;
+
+    const fetchToken = async () => {
+      try {
+        if (authDetails.meeting_token) return; // already have it
+
+        const token = await getAuthToken(
+          userId,
+          authDetails.user?.role ?? "guest",
+        );
+        if (!token || cancelled) return;
+
+        const updated = { ...authDetails, meeting_token: token };
+        setAuthDetails(updated);
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      } catch (err) {
+        console.error("Failed to fetch meeting token:", err);
+      }
+    };
+
+    fetchToken();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [authDetails?.user?.id]);
+
+  /** Update auth explicitly (login / refresh) */
+  const updateAuth = (user: any) => {
+    if (!user) {
+      setAuthDetails(null);
+      localStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    setAuthDetails(user);
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        ...user,
+        expiresAt: Date.now() + SESSION_DURATION,
+      }),
+    );
+  };
+
+  /** Logout */
+  const logout = () => {
+    setAuthDetails(null);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
     <AuthContext.Provider
-      value={{ authDetails, updateAuth, logoutSignal, setLogoutSignal }}
+      value={{ authDetails, updateAuth, logout, isLoading }}
     >
       {children}
     </AuthContext.Provider>
