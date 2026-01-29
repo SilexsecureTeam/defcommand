@@ -11,7 +11,7 @@ export default function useEmergencyFeed() {
   useEffect(() => {
     const emergencyRef = ref(db, "emergency");
 
-    const unsubscribe = onValue(emergencyRef, (snapshot) => {
+    onValue(emergencyRef, (snapshot) => {
       const data = snapshot.val();
       setAllEmergency(data);
       setIsConnected(!!data);

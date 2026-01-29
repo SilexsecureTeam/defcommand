@@ -19,7 +19,7 @@ export function useFleetTracking() {
   useEffect(() => {
     const liveRef = ref(db, "drivers_live");
 
-    const unsub = onValue(liveRef, (snapshot) => {
+    onValue(liveRef, (snapshot) => {
       if (!snapshot.exists()) {
         setAssets({});
         setIsConnected(false);

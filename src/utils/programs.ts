@@ -1,4 +1,4 @@
-import { sendMessageUtil } from "../../../defcomm-chat-app/src/utils/chat/sendMessageUtil";
+import { sendMessageUtil } from "./chat/sendMessageUtil";
 
 export const checkIfAtBottom = (containerRef: any, threshold = 40) => {
   const container = containerRef?.current;
