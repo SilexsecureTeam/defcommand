@@ -27,8 +27,6 @@ export function useFleetTracking() {
       }
 
       const data = snapshot.val();
-      console.log(data);
-
       setAssets(data);
       setIsConnected(true);
     });

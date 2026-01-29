@@ -15,6 +15,7 @@ export default function useEmergencyFeed() {
       const data = snapshot.val();
       setAllEmergency(data);
       setIsConnected(!!data);
+      console.log(data);
     });
 
     return () => off(emergencyRef);

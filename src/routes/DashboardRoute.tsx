@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "../pages/dashboard/Dashboard";
-import SecureRoute from "./SecureRoute";
 import DashboardLayout from "../layout/DashboardLayout";
 import SecureCall from "../pages/dashboard/SecureCall";
 import ControlCenter from "../pages/dashboard/ControlCenter";
@@ -12,6 +11,9 @@ import { EmergencyProvider } from "../context/EmergencyContext";
 import EmergencyOverlay from "../components/control/EmergencyOverlay";
 import { MeetingProvider } from "../context/MeetingContext";
 import TacticalCallInterface from "../pages/dashboard/TacticalCallInterface";
+import { CommandProvider } from "../context/CommandContext";
+import CommandOverlay from "../components/CommandOverLay";
+import { CommandToast } from "../utils/notifications/CommandToast";
 const DashboardRoute = () => {
   return (
     <StoreProvider>
@@ -19,20 +21,22 @@ const DashboardRoute = () => {
         <ChatProvider>
           <GroupProvider>
             <EmergencyProvider>
-              <EmergencyOverlay />
-              <Routes>
-                <Route path="/" element={<SecureRoute />}>
-                  <Route element={<DashboardLayout />}>
+              <CommandProvider>
+                <EmergencyOverlay />
+                <CommandOverlay />
+                <CommandToast />
+                <Routes>
+                  <Route path="/" element={<DashboardLayout />}>
                     <Route path="/home" element={<Dashboard />} />
                     <Route path="/call" element={<SecureCall />} />
                     <Route path="/call-center" element={<CallCenter />} />
                   </Route>
 
                   <Route path="/control-center" element={<ControlCenter />} />
-                </Route>
-              </Routes>
+                </Routes>
 
-              <TacticalCallInterface />
+                <TacticalCallInterface />
+              </CommandProvider>
             </EmergencyProvider>
           </GroupProvider>
         </ChatProvider>

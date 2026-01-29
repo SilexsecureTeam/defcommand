@@ -14,7 +14,7 @@ export default function TacticalControlCenter() {
   const { data: contacts } = useFetchContacts();
   const { assets: liveAssets, isConnected } = useFleetTracking();
 
-  const { selectedEmergency, openPanel } = useEmergency();
+  const { isActiveEmergency, openPanel } = useEmergency();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [camPos, setCamPos] = useState({ x: 0, y: 0 });
 
@@ -58,7 +58,7 @@ export default function TacticalControlCenter() {
 
   return (
     <div
-      className={`min-h-screen p-4 pt-10 font-mono ${!!selectedEmergency ? "bg-[#2a0505]" : "bg-[#1A2208]"}`}
+      className={`min-h-screen p-4 pt-10 font-mono ${isActiveEmergency ? "bg-[#2a0505]" : "bg-[#1A2208]"}`}
     >
       <HeaderBar isConnected={isConnected} />
       <div className="grid grid-cols-12 gap-4">

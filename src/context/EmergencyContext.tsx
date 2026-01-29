@@ -31,6 +31,7 @@ interface EmergencyContextType {
   selectEmergency: (id: string) => void;
   acknowledge: (id: string) => void;
   respond: (id: string, message: string) => void;
+  isActiveEmergency: boolean;
 }
 
 const EmergencyContext = createContext<EmergencyContextType | null>(null);
@@ -49,7 +50,6 @@ export const EmergencyProvider = ({
     useState<EmergencyEvent | null>(null);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // map contacts by id
   const contactsById = useMemo(() => {
     if (!contacts) return {};
     return contacts.reduce((acc: any, contact: any) => {
@@ -71,18 +71,17 @@ export const EmergencyProvider = ({
         datacenterMessage: val.datacenterMessage,
       }))
       .sort((a, b) => b.timestamp - a.timestamp)
-      .filter((e) => contactsById[e.senderId]); // only include known contacts
+      .filter((e) => contactsById[e.senderId]);
 
     setEmergencies(formatted);
 
     const newestPending = formatted.find((e) => e.status === "pending");
-    if (
-      newestPending &&
-      (!selectedEmergency || selectedEmergency.id !== newestPending.id)
-    ) {
+    if (newestPending) {
       setSelectedEmergency(newestPending);
       emergencyAudio.play(emergencyTone);
-    } else if (!newestPending) {
+    } else if (!newestPending && formatted.length > 0) {
+      // select last seen emergency if no pending
+      setSelectedEmergency(formatted[0]);
       emergencyAudio.stop();
     }
   }, [allEmergency, contactsById]);
@@ -116,8 +115,9 @@ export const EmergencyProvider = ({
     });
   }, []);
 
-  const value = useMemo(
-    () => ({
+  const value = useMemo(() => {
+    const isActiveEmergency = emergencies.some((e) => e.status === "pending");
+    return {
       emergencies,
       selectedEmergency,
       isPanelOpen,
@@ -126,18 +126,18 @@ export const EmergencyProvider = ({
       selectEmergency,
       acknowledge,
       respond,
-    }),
-    [
-      emergencies,
-      selectedEmergency,
-      isPanelOpen,
-      openPanel,
-      closePanel,
-      selectEmergency,
-      acknowledge,
-      respond,
-    ],
-  );
+      isActiveEmergency,
+    };
+  }, [
+    emergencies,
+    selectedEmergency,
+    isPanelOpen,
+    openPanel,
+    closePanel,
+    selectEmergency,
+    acknowledge,
+    respond,
+  ]);
 
   return (
     <EmergencyContext.Provider value={value}>

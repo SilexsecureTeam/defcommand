@@ -1,6 +1,7 @@
 import StatusRow from "./StatusRow";
 import truck from "../../assets/command/truck.svg";
 import { useAddress } from "../../hooks/useAddress";
+import { formatTime } from "../../utils/formmaters";
 
 export default function AssetInfoPanel({ asset }: any) {
   const { data: location, isLoading } = useAddress(asset?.lat, asset?.lng);
@@ -45,9 +46,15 @@ export default function AssetInfoPanel({ asset }: any) {
         <StatusRow label="Engine Status" value="OPTIMAL" />
         <StatusRow label="Comm Link" value="STABLE" />
         <StatusRow label="Fuel Mass" value="82%" color="text-yellow-500" />
-        <StatusRow label="Speed" value={`${asset.speed ?? 0} km/h`} />
+        <StatusRow
+          label="Speed"
+          value={`${asset?.speed?.toFixed(4) ?? 0} km/h`}
+        />
         <StatusRow label="Heading" value={`${asset.heading ?? 0}°`} />
-        <StatusRow label="Last Update" value={asset.trackTime ?? "—"} />
+        <StatusRow
+          label="Last Update"
+          value={formatTime(asset?.trackTime) ?? "—"}
+        />
       </div>
     </div>
   );

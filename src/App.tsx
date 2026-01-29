@@ -13,6 +13,7 @@ import { emit } from "@tauri-apps/api/event";
 import DashboardRoute from "./routes/DashboardRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import SecureRoute from "./routes/SecureRoute";
 
 function App() {
   useEffect(() => {
@@ -27,12 +28,19 @@ function App() {
     <NotificationProvider>
       <AuthProvider>
         <Router>
-          <div className="bg-red-100 min-h-screen">
+          <div className="min-h-screen">
             <TitleBar />
             <Routes>
+              {/* PUBLIC */}
               <Route path="/login" element={<LoginScreen />} />
-              <Route path="/dashboard/*" element={<DashboardRoute />} />
-              <Route path="*" element={<Navigate to="/login" />} />
+
+              {/* PROTECTED */}
+              <Route element={<SecureRoute />}>
+                <Route path="/dashboard/*" element={<DashboardRoute />} />
+              </Route>
+
+              {/* FALLBACK */}
+              <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
           </div>
         </Router>

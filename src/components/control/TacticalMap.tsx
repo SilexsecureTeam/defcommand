@@ -11,6 +11,7 @@ import mapIcon from "../../assets/command/map.svg";
 import call from "../../assets/calls.png";
 import { Compass } from "lucide-react";
 import { useEmergency } from "../../context/EmergencyContext";
+import { useCommand } from "../../context/CommandContext";
 
 // Fix Leaflet default icon
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -58,8 +59,9 @@ export default function TacticalMap({
   onSelect,
   selectedAsset,
 }: TacticalMapProps) {
+  const { openPanel } = useCommand();
   const defaultPosition: [number, number] = [6.5244, 3.3792];
-  const { selectedEmergency } = useEmergency();
+  const { isActiveEmergency } = useEmergency();
 
   return (
     <div className="row-span-3 relative bg-[#1A2208] border border-[#4A5A2A] overflow-hidden shadow-inner">
@@ -78,7 +80,7 @@ export default function TacticalMap({
           <button
             onClick={onEmergency}
             className={`bg-[#C62828] text-white px-4 py-3 text-xs rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-3 border border-red-500/50 font-bold uppercase tracking-tighter shadow-[0_5px_15px_rgba(198,40,40,0.4)] ${
-              selectedEmergency
+              isActiveEmergency
                 ? "bg-[#C62828] border-red-400 text-white shadow-[0_0_25px_rgba(198,40,40,0.8)] animate-pulse"
                 : "bg-[#3b3b3b] border-white/10 text-white/70 hover:brightness-110"
             }`}
@@ -86,7 +88,12 @@ export default function TacticalMap({
             <img src={emergency} className="w-5" alt="" /> Emergency Alert
           </button>
 
-          <button className="bg-[#0D1204] text-white px-4 py-3 text-xs rounded-xl hover:bg-black transition-all flex items-center gap-3 border border-white/10 font-bold uppercase tracking-tighter">
+          <button
+            onClick={openPanel}
+            className="bg-[#0D1204] text-white px-4 py-3 text-xs rounded-xl hover:bg-black transition-all flex items-center gap-3 border border-white/10 font-bold uppercase tracking-tighter
+              animate-pulse shadow-[0_0_25px_rgba(198,40,40,0.8)]
+            "
+          >
             <img src={emergency} className="w-5" alt="" /> Send Alert
           </button>
 

@@ -3,11 +3,15 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const RootRedirect = ({ children }: any) => {
-  const { authDetails } = useContext<any>(AuthContext);
-  console.log(authDetails);
+  const { authDetails, isLoading } = useContext(AuthContext);
 
-  // Route user appropriately
-  return authDetails ? <Navigate to="/dashboard/home" replace /> : children;
+  if (isLoading) return null;
+
+  if (authDetails?.meeting_token) {
+    return <Navigate to="/dashboard/home" replace />;
+  }
+
+  return children;
 };
 
 export default RootRedirect;

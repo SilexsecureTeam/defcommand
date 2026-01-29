@@ -10,7 +10,7 @@ const DashHeader = () => {
   const navigate = useNavigate();
   const { formattedTime, formattedDate } = useTime();
 
-  const { selectedEmergency, openPanel } = useEmergency();
+  const { openPanel, isActiveEmergency } = useEmergency();
 
   return (
     <div>
@@ -44,16 +44,16 @@ const DashHeader = () => {
             onClick={openPanel}
             className={`cursor-pointer 
               relative px-4 py-3 text-sm rounded-xl 
-              font-black uppercase tracking-tighter 
-              border transition-all flex items-center gap-3
+              font-semibold uppercase tracking-tighter 
+              border transition-all flex items-center gap-3 shadow-[0_0_25px_rgba(198,40,40,0.8)]
               ${
-                selectedEmergency
-                  ? "bg-[#C62828] border-red-400 text-white shadow-[0_0_25px_rgba(198,40,40,0.8)] animate-pulse"
-                  : "bg-[#3b3b3b] border-white/10 text-white/70 hover:brightness-110"
+                isActiveEmergency
+                  ? "bg-[#C62828] font-black border-red-400 text-white animate-pulse"
+                  : "bg-[#C62828] border-red-500 text-white"
               }
             `}
           >
-            {selectedEmergency && (
+            {isActiveEmergency && (
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping" />
             )}
             Emergency
