@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Cpu, Download, AlertTriangle } from "lucide-react";
+import { Cpu, AlertTriangle, Clock } from "lucide-react";
 import { useUpdaterContext } from "../../context/UpdaterContext";
 
 type Props = {
@@ -9,7 +10,38 @@ type Props = {
 export default function UpdateOverlay({ mandatory = false }: Props) {
   const { state, progress, update, error, downloadAndInstall } =
     useUpdaterContext();
+  const [showBypass, setShowBypass] = useState(false);
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (state === "available" && update?.version) {
+      const storageKey = `update_seen_${update.version}`;
+      const firstSeen = localStorage.getItem(storageKey);
+      const now = Date.now();
+      const gracePeriod = 3 * 24 * 60 * 60 * 1000;
+
+      if (!firstSeen) {
+        localStorage.setItem(storageKey, now.toString());
+        setDaysRemaining(3);
+        setShowBypass(true);
+      } else {
+        const elapsed = now - parseInt(firstSeen);
+        const remaining = Math.ceil(
+          (gracePeriod - elapsed) / (1000 * 60 * 60 * 24),
+        );
+
+        if (remaining > 0) {
+          setDaysRemaining(remaining);
+          setShowBypass(true);
+        } else {
+          setShowBypass(false); // Grace period expired
+        }
+      }
+    }
+  }, [state, update?.version]);
+
+  // If mandatory is true, we ignore the bypass logic
+  const canBypass = !mandatory && showBypass;
   const isVisible = [
     "available",
     "downloading",
@@ -24,142 +56,116 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-1000 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 font-mono"
+          className="fixed inset-0 z-1000 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 font-mono"
         >
-          {/* Tactical Pulse Background Effect */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-size-[20px_20px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-size-[100%_4px,3px_100%]" />
 
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="w-full max-w-md bg-zinc-950 border border-zinc-800 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden relative"
+            className="w-full max-w-md bg-zinc-950 border border-zinc-800 shadow-[0_0_50px_-12px_rgba(16,185,129,0.2)] overflow-hidden relative"
           >
-            {/* Top Status Bar */}
-            <div className="bg-zinc-900 px-4 py-2 border-b border-zinc-800 flex justify-between items-center text-[10px] uppercase tracking-widest text-zinc-500">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            {/* TOP HEADER */}
+            <div className="bg-zinc-900 px-4 py-2 border-b border-zinc-800 flex justify-between items-center text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 System_Update_Protocol
-              </div>
-              {!mandatory && state === "available" && (
-                <button
-                  onClick={() => location.reload()}
-                  className="hover:text-emerald-400 transition-colors"
-                >
-                  <X size={14} />
-                </button>
+              </span>
+              {canBypass && (
+                <span className="flex items-center gap-1 text-amber-500/80">
+                  <Clock size={10} /> {daysRemaining}D_REMAINING
+                </span>
               )}
             </div>
 
-            <div className="p-6">
-              {/* Header Icon & Title */}
-              <div className="flex items-start gap-4 mb-6">
-                <div className="p-3 bg-zinc-900 border border-zinc-800 text-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                  {state === "error" ? (
-                    <AlertTriangle size={24} className="text-rose-500" />
-                  ) : (
-                    <Cpu size={24} />
-                  )}
+            <div className="p-8">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500">
+                  <Cpu size={28} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-zinc-100 uppercase tracking-tight">
-                    {state === "error" ? "Protocol Failure" : "Update Detected"}
+                  <h2 className="text-xl font-black text-white uppercase tracking-tighter italic">
+                    Defcommand_{update?.version}
                   </h2>
-                  <p className="text-[11px] text-zinc-500 uppercase tracking-tighter">
-                    {state === "available"
-                      ? "Awaiting manual override"
-                      : "Executing sequence..."}
+                  <p className="text-[10px] text-zinc-500 tracking-widest uppercase">
+                    Deployment Ready
                   </p>
                 </div>
               </div>
 
-              {/* State: Available */}
               {state === "available" && (
-                <div className="space-y-4">
-                  <div className="bg-zinc-900/50 p-3 border-l-2 border-emerald-500">
-                    <p className="text-xs text-zinc-300">
-                      NEW_VERSION:{" "}
-                      <span className="text-emerald-400">
-                        {update?.version}
-                      </span>
-                    </p>
-                    {update?.body && (
-                      <div className="mt-2 text-[10px] leading-relaxed text-zinc-500 max-h-24 overflow-y-auto scrollbar-hide italic">
-                        {update.body}
-                      </div>
+                <div className="space-y-6">
+                  <div className="text-[11px] leading-relaxed text-zinc-400 bg-zinc-900/30 p-4 border border-zinc-800/50 italic">
+                    {update?.body || "Patch notes encrypted or unavailable."}
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <button
+                      onClick={downloadAndInstall}
+                      className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 text-xs font-bold uppercase tracking-[0.3em] transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
+                    >
+                      Initialize Update
+                    </button>
+
+                    {canBypass && (
+                      <button
+                        onClick={() => window.location.reload()} // Simply reloads to App, which checks for logic
+                        className="w-full bg-transparent border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-300 py-3 text-[10px] font-bold uppercase tracking-[0.2em] transition-all"
+                      >
+                        Stay on current version
+                      </button>
                     )}
                   </div>
-                  <button
-                    onClick={downloadAndInstall}
-                    className="group relative w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 text-xs font-bold uppercase tracking-widest transition-all overflow-hidden"
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <Download size={14} /> Initiate Deployment
-                    </span>
-                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                  </button>
                 </div>
               )}
 
-              {/* State: Downloading/Installing */}
+              {/* DOWNLOAD PROGRESS */}
               {(state === "downloading" || state === "installing") && (
-                <div className="space-y-4">
-                  <div className="flex justify-between text-[10px] text-zinc-400 mb-1 uppercase tracking-widest">
+                <div className="py-4">
+                  <div className="flex justify-between text-[10px] text-emerald-500 mb-2 font-bold tracking-widest">
                     <span>
                       {state === "downloading"
-                        ? "Retrieving Packets"
-                        : "Patching Core"}
+                        ? "DOWNLOADING_DATA"
+                        : "RECONSTRUCTING_CORE"}
                     </span>
-                    <span className="text-emerald-400">{progress}%</span>
+                    <span>{progress}%</span>
                   </div>
-
-                  <div className="relative h-1 bg-zinc-900 overflow-hidden border border-zinc-800">
+                  <div className="h-1.5 w-full bg-zinc-900 border border-zinc-800 p-px">
                     <motion.div
-                      className="absolute top-0 left-0 h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                      className="h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"
                       initial={{ width: 0 }}
                       animate={{ width: `${progress}%` }}
-                      transition={{ ease: "linear" }}
-                    />
-                    {/* Laser Scan Effect */}
-                    <motion.div
-                      animate={{ left: ["-10%", "110%"] }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="absolute top-0 w-8 h-full bg-white/20 skew-x-12"
                     />
                   </div>
-                  <p className="text-[9px] text-zinc-600 animate-pulse uppercase">
-                    Do not terminate application process...
-                  </p>
                 </div>
               )}
 
-              {/* State: Error */}
+              {/* ERROR STATE */}
               {state === "error" && (
                 <div className="space-y-4">
-                  <div className="bg-rose-500/10 border border-rose-900/50 p-3">
-                    <p className="text-[11px] text-rose-400 leading-tight">
-                      <span className="font-bold uppercase underline">
-                        Error Code:
-                      </span>{" "}
-                      {error || "Unknown system interruption"}
+                  <div className="bg-rose-500/10 border border-rose-500/30 p-4 flex items-center gap-3">
+                    <AlertTriangle className="text-rose-500" size={20} />
+                    <p className="text-[10px] text-rose-400 uppercase leading-tight font-bold">
+                      {error}
                     </p>
                   </div>
                   <button
                     onClick={downloadAndInstall}
-                    className="w-full border border-rose-500 text-rose-500 hover:bg-rose-500 hover:text-white py-3 text-xs font-bold uppercase tracking-widest transition-all"
+                    className="w-full bg-rose-600 text-white py-4 text-xs font-bold uppercase tracking-widest"
                   >
-                    Relaunch Protocol
+                    Retry Protocol
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Bottom Trim */}
-            <div className="h-1 bg-linear-to-r from-transparent via-emerald-500/20 to-transparent" />
+            {/* DECORATIVE SCAN LINE */}
+            <motion.div
+              animate={{ top: ["0%", "100%", "0%"] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="absolute left-0 w-full h-px bg-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.5)] z-0 pointer-events-none"
+            />
           </motion.div>
         </motion.div>
       )}
