@@ -1,51 +1,51 @@
 {
-  "version": "0.1.1",
-  "notes": "Release v0.1.1",
-  "pub_date": "2026-01-13T21:15:41.766Z",
+  "version": "0.1.6",
+  "notes": "Release v0.1.6",
+  "pub_date": "2026-01-31T14:49:39.390Z",
   "platforms": {
-    "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXZpQnhuZzBmU1U3Z1B4Q0JQR2NZZVVoWVlqUXdUMVBSY3Z0WHdtbjZpc2E1SVJ3ZCtNVEhXS2FoY0dnV01Oa2ZtWTV0enJrYlNZOU4wRjY3QUhSSVFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjMwCWZpbGU6ZGVmY29tbS1icm93c2VyLmFwcC50YXIuZ3oKZDRPdktHNGhqUlBLSTVmeFNQdTdwUmROZWNZK2lFa1ZLWFh5elUvLyt0SzcrTHRmWTRndmlmSnhpWDdqdk5NSm5XdHZuWkNkVHdpbE9yeGlodWRZQVE9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_aarch64.app.tar.gz"
-    },
-    "darwin-aarch64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXZpQnhuZzBmU1U3Z1B4Q0JQR2NZZVVoWVlqUXdUMVBSY3Z0WHdtbjZpc2E1SVJ3ZCtNVEhXS2FoY0dnV01Oa2ZtWTV0enJrYlNZOU4wRjY3QUhSSVFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjMwCWZpbGU6ZGVmY29tbS1icm93c2VyLmFwcC50YXIuZ3oKZDRPdktHNGhqUlBLSTVmeFNQdTdwUmROZWNZK2lFa1ZLWFh5elUvLyt0SzcrTHRmWTRndmlmSnhpWDdqdk5NSm5XdHZuWkNkVHdpbE9yeGlodWRZQVE9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_aarch64.app.tar.gz"
-    },
-    "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXM0SUF5WFUwY2d3bFNIYlBwSDI4dEpOMVRZL3JwSk5oZk5NOEl4UUNKcnhrOWdLOWR6K2k2aCtPeVEzK2V6UDNQUmR1bVVJaEJQU09FN092YlhpZkFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjU5CWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX2FtZDY0LkFwcEltYWdlCnlmK2ljV1NnZUdSZCtPL2ZrMEs1MW1sc3J6bGU4aVR4d1BSVUh6OHJsa0VJWm10ZlYvL2cwRTM5dDAwWWFrRkdYNUVQcnV6YlcyNFRJRXJSanlSUUNnPT0K",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_amd64.AppImage"
-    },
-    "linux-x86_64-appimage": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXM0SUF5WFUwY2d3bFNIYlBwSDI4dEpOMVRZL3JwSk5oZk5NOEl4UUNKcnhrOWdLOWR6K2k2aCtPeVEzK2V6UDNQUmR1bVVJaEJQU09FN092YlhpZkFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjU5CWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX2FtZDY0LkFwcEltYWdlCnlmK2ljV1NnZUdSZCtPL2ZrMEs1MW1sc3J6bGU4aVR4d1BSVUh6OHJsa0VJWm10ZlYvL2cwRTM5dDAwWWFrRkdYNUVQcnV6YlcyNFRJRXJSanlSUUNnPT0K",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_amd64.AppImage"
-    },
-    "linux-x86_64-deb": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaW0zUWVFYyt2L29ZalJ4ODk1TjdwVDZ2YitoSkJrNTNVelBNUzhUSE52SHQwcDNCdXd2ZmpjQTBPS2lmRjZuUDlZNUlERmZNM2FuU3VxMWdpTmZESHdVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjU5CWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX2FtZDY0LmRlYgpsMUdrU04xVEhHdDdBN1lPaWJMWGVaOGpMTUpFTUdURzhTZVA2K0xKTElMa3lud3pnMEJITEpBME1aNCsremtOYms0MUNkaGNoekc5bHk5TloxVWZEQT09Cg==",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_amd64.deb"
-    },
-    "linux-x86_64-rpm": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaWhYMDlIQlpxdzZsQkxpc3RaQ3pMR0hhOEozR3AxdTdHaTRBS1BPSTNiYmw1Mlllb3FGc2JqbjNsMDBQNDAzajU0T3ZhVVAveGoveGZxaFZqUThuN3dRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NjU5CWZpbGU6ZGVmY29tbS1icm93c2VyLTAuMS4xLTEueDg2XzY0LnJwbQpFb1VCdzBRMkVYK3doRVd0L2NaRFZlTndvUEpaVjY0c25ORkVDN1hzNjZEWC9JVFB1TDR4Nlc5RGVibzkycXhkaTRVRlR2MDJmZ2pmcjFDQjlXdUxEUT09Cg==",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser-0.1.1-1.x86_64.rpm"
-    },
-    "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaWlTUDcya0lXdE8zdjNpU0dZb1lCaENERWVJaVFsQmgzaFJhWlJTSTVkNW5vQkw1Q05sSTZXbXdmU3hlTlRBdnhva3M2TFN1MlZORHFLTFlZSzV5d2c4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NzQyCWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX3g2NF9lbi1VUy5tc2kKbXNLU2lYc0g4M0pSZWJ3bk5CNUdxMmVHK0d2WXVIc2hjTk9HaGpRREZEK2tKcGV1UTBNWDE5ckpMT0hZZk82Q2JPMzlpWmo0WE13QXZZd0RBVzVpQXc9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_x64_en-US.msi"
-    },
-    "windows-x86_64-msi": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaWlTUDcya0lXdE8zdjNpU0dZb1lCaENERWVJaVFsQmgzaFJhWlJTSTVkNW5vQkw1Q05sSTZXbXdmU3hlTlRBdnhva3M2TFN1MlZORHFLTFlZSzV5d2c4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NzQyCWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX3g2NF9lbi1VUy5tc2kKbXNLU2lYc0g4M0pSZWJ3bk5CNUdxMmVHK0d2WXVIc2hjTk9HaGpRREZEK2tKcGV1UTBNWDE5ckpMT0hZZk82Q2JPMzlpWmo0WE13QXZZd0RBVzVpQXc9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_x64_en-US.msi"
-    },
-    "windows-x86_64-nsis": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaWxkV1pDYUZWT1JpU3hsRERXRlJncjNiVmxBWnhXeXNQbTVPY3ZMbjMyL05RYThLU3VaMlJSUVlRSWt0M2hMQWpVLzJOUllTSHlxTjZTWFFEZTJpTEF3PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4NzQyCWZpbGU6ZGVmY29tbS1icm93c2VyXzAuMS4xX3g2NC1zZXR1cC5leGUKMGhZTGlPc3huNjdzZlRiSzNKcFVBUUFIaVl4aXVtNTlPSmpSREYveE1IVWcrSXBhTE50UU9rdHlWNEc3QWcyLy9naUdlTjlVZXB3OVZKcTR5SUdmQ0E9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_0.1.1_x64-setup.exe"
-    },
     "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXZpSytyMFR3YU5SeDZ5N01aVTh5RkY5TWRmL0ZpZDFlOVptODBwSDlBSWtaTFdlUG4renkzVWp4dnFTOUFKanRpcWlBYmEwWndGeWZRdVEyWWF1dEFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4OTM2CWZpbGU6ZGVmY29tbS1icm93c2VyLmFwcC50YXIuZ3oKdmg1bmZnQXVxVjF6YitCOEJYcTRsM0JlYzEzWU9SdGlUVllteEJxS0V4TytYVTErbzltU01lbHN5STl6cDdFYk1PTTRjSnhLM2pWdEF0aTVXVTNVQUE9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_x64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFNSdzh1bnJFaVUrRGM5endMUkpBSnJBeFFGYnJJazU0Zm9aeFVZZUYzby93eVNHZ1ZudzFGc1FHMElDQXVLalZmV1NVZjF1bW5xMDdXTmQvNmlKdEFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwNzI5CWZpbGU6ZGVmY29tbWFuZC5hcHAudGFyLmd6Cm1ROGhDUmxXNThhcjREUGdsSVNjRnVkTThzbHlBa0NJT0lNWERYUmlmRDlyRzZZckZ2THlLeDhMM256Y2NLSnJSYXVZTms0RHpub3B5Nm0rMmRFSkF3PT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_x64.app.tar.gz"
     },
     "darwin-x86_64-app": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTcUJUM0xJcGxsaXZpSytyMFR3YU5SeDZ5N01aVTh5RkY5TWRmL0ZpZDFlOVptODBwSDlBSWtaTFdlUG4renkzVWp4dnFTOUFKanRpcWlBYmEwWndGeWZRdVEyWWF1dEFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY4MzM4OTM2CWZpbGU6ZGVmY29tbS1icm93c2VyLmFwcC50YXIuZ3oKdmg1bmZnQXVxVjF6YitCOEJYcTRsM0JlYzEzWU9SdGlUVllteEJxS0V4TytYVTErbzltU01lbHN5STl6cDdFYk1PTTRjSnhLM2pWdEF0aTVXVTNVQUE9PQo=",
-      "url": "https://github.com/SilexsecureTeam/defcomm-browser/releases/download/v0.1.1/defcomm-browser_x64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFNSdzh1bnJFaVUrRGM5endMUkpBSnJBeFFGYnJJazU0Zm9aeFVZZUYzby93eVNHZ1ZudzFGc1FHMElDQXVLalZmV1NVZjF1bW5xMDdXTmQvNmlKdEFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwNzI5CWZpbGU6ZGVmY29tbWFuZC5hcHAudGFyLmd6Cm1ROGhDUmxXNThhcjREUGdsSVNjRnVkTThzbHlBa0NJT0lNWERYUmlmRDlyRzZZckZ2THlLeDhMM256Y2NLSnJSYXVZTms0RHpub3B5Nm0rMmRFSkF3PT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_x64.app.tar.gz"
+    },
+    "linux-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSGNVeVBpQXdxRlZnZmh4MnZ5ekFjK2xvZ2w1V2RCWEJuSkY0VWdQMDh6a1hVQnppc0c5UXAwUGhvVmlYYnJsZE5zc25EbHhYNUJ3elQycm14OG8wWlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwODY3CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl9hbWQ2NC5BcHBJbWFnZQp3ZmdQVjg1VS9WSXJ5YXk0L2h6U3JRTGlOcVA5Ym0xNVdYWDNiNkYwUDNONFdUWExRME5ud0Fkb3dzZjZaT3BrUjRxYVRNbUd2MThXSDE5SUdQYlVDQT09Cg==",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_amd64.AppImage"
+    },
+    "linux-x86_64-appimage": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSGNVeVBpQXdxRlZnZmh4MnZ5ekFjK2xvZ2w1V2RCWEJuSkY0VWdQMDh6a1hVQnppc0c5UXAwUGhvVmlYYnJsZE5zc25EbHhYNUJ3elQycm14OG8wWlFBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwODY3CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl9hbWQ2NC5BcHBJbWFnZQp3ZmdQVjg1VS9WSXJ5YXk0L2h6U3JRTGlOcVA5Ym0xNVdYWDNiNkYwUDNONFdUWExRME5ud0Fkb3dzZjZaT3BrUjRxYVRNbUd2MThXSDE5SUdQYlVDQT09Cg==",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_amd64.AppImage"
+    },
+    "linux-x86_64-deb": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFdISnJjejJVcVl2NGJnZjd3LzhCOERadFJ3a3VnV3pHQnZiWStrcUd4QWlWRnF5ZUhBWDlNQ2w2WWc4QkdML3NhbStLL3l3ejRPeEhidmRXVENtZ1FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwODY3CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl9hbWQ2NC5kZWIKWi9ZYmRiUWp2VjlCbkgydXFMdmNkY1AzQ2FaUlArRnJVWExaVUFIREdUM1c2SkxaVWwraXQ4WWNZdmFVRlhRc1JOMWpsQ0F1S1VkNVhKZlRubXZ0QXc9PQo=",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_amd64.deb"
+    },
+    "linux-x86_64-rpm": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSGZuZ1ZCbmgyaGJiNkxnMVhTSjNkdnhLd3pxbGluSi9IQ3pYKzMycTFNSlFJWWl1M2UwSENYWkM3WXdYOFE4TGYwNGMwUXVUM1MrVUgwdTZ5cm9EVWdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwODY3CWZpbGU6ZGVmY29tbWFuZC0wLjEuNi0xLng4Nl82NC5ycG0KOG9hK2NXSVhzZDQvdjgyQm5GMG5ibGc2U3BQdzZCNS84TXpTWjk4c0V1ajJSMENuaW1Bd21aUkhCNlVrYjJKRUZDbktac3JwbzBZSkJHbWhLdHhHRHc9PQo=",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand-0.1.6-1.x86_64.rpm"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFlVc2F2OG04WXE5ZHp0TWhQa1d1azZBeVVWaStoUm84R3ZRQ1ArMDQ1YS9oWVVoMytWQkZxeWFMemYwOGVrM09WV3NuTzRUZEZ0MzlEY2hJdzJseUFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwOTEwCWZpbGU6ZGVmY29tbWFuZC5hcHAudGFyLmd6CjVIWHh4YWh3SEpjUTVYaUllbFg3Q0swQWR6RG9abHllZXlWUHBMcGN0TDI5UXBwOUlYRUIwZjl4dGdUVTR6MVJaRGxFdFNGVitheGMvek9oRXVpMEJRPT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_aarch64.app.tar.gz"
+    },
+    "darwin-aarch64-app": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFlVc2F2OG04WXE5ZHp0TWhQa1d1azZBeVVWaStoUm84R3ZRQ1ArMDQ1YS9oWVVoMytWQkZxeWFMemYwOGVrM09WV3NuTzRUZEZ0MzlEY2hJdzJseUFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwOTEwCWZpbGU6ZGVmY29tbWFuZC5hcHAudGFyLmd6CjVIWHh4YWh3SEpjUTVYaUllbFg3Q0swQWR6RG9abHllZXlWUHBMcGN0TDI5UXBwOUlYRUIwZjl4dGdUVTR6MVJaRGxFdFNGVitheGMvek9oRXVpMEJRPT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_aarch64.app.tar.gz"
+    },
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFhCQXA5MHBMRTErM0RKRmlnbEJ2OHZIdEF3YSs3cUkvK1oxUVJmVzRxZDMrMnpJRnJHdzluV3A3YlBYd2lockZMenJHazdzc2FaQzE2ZVl4QXNZaHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwOTc1CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl94NjRfZW4tVVMubXNpCkdPZzUxaXE2QVo5UWdzTVZzN0FTQ1BsdnpDNXFTRzlRYk1aT2RENXFTbU54Mkc2OTBSV29qcXJOaVJkbklEVTdUUXpNcVRmRURBVHkvQkhnMDZhcUFBPT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_x64_en-US.msi"
+    },
+    "windows-x86_64-msi": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFhCQXA5MHBMRTErM0RKRmlnbEJ2OHZIdEF3YSs3cUkvK1oxUVJmVzRxZDMrMnpJRnJHdzluV3A3YlBYd2lockZMenJHazdzc2FaQzE2ZVl4QXNZaHdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwOTc1CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl94NjRfZW4tVVMubXNpCkdPZzUxaXE2QVo5UWdzTVZzN0FTQ1BsdnpDNXFTRzlRYk1aT2RENXFTbU54Mkc2OTBSV29qcXJOaVJkbklEVTdUUXpNcVRmRURBVHkvQkhnMDZhcUFBPT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_x64_en-US.msi"
+    },
+    "windows-x86_64-nsis": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTRExlYmJLNmNGSFFmcFJtakRFNEhsbDYvaHV4cUl0YUhtcjZIa01RK3RVY2FZalJNMWY3MXE4RGI1bCtuRndEVko2N3VtWUthL0pDT3dPOWQ2VVRzcHFQNXdwWXhCM2c4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzY5ODcwOTc1CWZpbGU6ZGVmY29tbWFuZF8wLjEuNl94NjQtc2V0dXAuZXhlCjJDRUE2c2hMYnR0c21kNzFhaUpQWThISVNQS3hZU0d4WFBNc2Nsa1dwMmIwNnI4OVZCeStzUGN2RVJLRGF2L1lxUFZ6R0JNUUlLRkZiRk1EQzVhZ0JBPT0K",
+      "url": "https://github.com/SilexsecureTeam/defcommand/releases/download/v0.1.6/defcommand_0.1.6_x64-setup.exe"
     }
   }
 }
