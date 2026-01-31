@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { check, Update } from "@tauri-apps/plugin-updater";
 import { relaunch } from "@tauri-apps/plugin-process";
 
-type UpdateState =
+export type UpdateState =
   | "idle"
   | "checking"
   | "available"
@@ -17,15 +17,30 @@ export function useUpdater() {
   const [update, setUpdate] = useState<Update | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const checkForUpdate = useCallback(async () => {
-    try {
-      setState("checking");
+  const isChecking = useRef(false);
 
+  const checkForUpdate = useCallback(async () => {
+    if (isChecking.current) return null;
+
+    // Prevent redundant checks if update is already in progress
+    if (
+      state === "available" ||
+      state === "downloading" ||
+      state === "installing"
+    ) {
+      return null;
+    }
+
+    isChecking.current = true;
+    setState("checking");
+    console.log("[SYSTEM] Initiating secure patch scan...");
+
+    try {
       const result = await check();
-      console.log("update", result);
 
       if (!result) {
         setState("idle");
+        setUpdate(null);
         return null;
       }
 
@@ -36,15 +51,17 @@ export function useUpdater() {
       setError(err?.message ?? "Failed to check update");
       setState("error");
       return null;
+    } finally {
+      isChecking.current = false;
     }
-  }, []);
+  }, [state]);
 
   const downloadAndInstall = useCallback(async () => {
-    if (!update) return;
+    if (!update || state === "downloading" || state === "installing") return;
 
     try {
       setState("downloading");
-
+      setError(null);
       let downloaded = 0;
       let total = 0;
 
@@ -53,14 +70,10 @@ export function useUpdater() {
           case "Started":
             total = event.data.contentLength ?? 0;
             break;
-
           case "Progress":
             downloaded += event.data.chunkLength;
-            if (total > 0) {
-              setProgress(Math.round((downloaded / total) * 100));
-            }
+            if (total > 0) setProgress(Math.round((downloaded / total) * 100));
             break;
-
           case "Finished":
             setState("installing");
             break;
@@ -70,17 +83,11 @@ export function useUpdater() {
       setState("done");
       await relaunch();
     } catch (err: any) {
+      console.error("[SYSTEM] Installation failed:", err);
       setError(err?.message ?? "Update failed");
       setState("error");
     }
-  }, [update]);
+  }, [update, state]);
 
-  return {
-    state,
-    progress,
-    update,
-    error,
-    checkForUpdate,
-    downloadAndInstall,
-  };
+  return { state, progress, update, error, checkForUpdate, downloadAndInstall };
 }

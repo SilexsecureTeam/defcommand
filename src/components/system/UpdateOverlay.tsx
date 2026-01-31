@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cpu, AlertTriangle, Clock } from "lucide-react";
 import { useUpdaterContext } from "../../context/UpdaterContext";
@@ -10,44 +10,48 @@ type Props = {
 export default function UpdateOverlay({ mandatory = false }: Props) {
   const { state, progress, update, error, downloadAndInstall } =
     useUpdaterContext();
-  const [showBypass, setShowBypass] = useState(false);
+
+  // Professional state management: Dismiss locally instead of reloading the app
+  const [isDismissed, setIsDismissed] = useState(false);
   const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
+
+  // Pull grace period from env (e.g., VITE_UPDATE_GRACE_DAYS=3)
+  const GRACE_PERIOD_DAYS = Number(import.meta.env.VITE_UPDATE_GRACE_DAYS) || 3;
 
   useEffect(() => {
     if (state === "available" && update?.version) {
+      // Reset dismissal if a new version is detected
+      setIsDismissed(false);
+
       const storageKey = `update_seen_${update.version}`;
       const firstSeen = localStorage.getItem(storageKey);
       const now = Date.now();
-      const gracePeriod = 3 * 24 * 60 * 60 * 1000;
+      const gracePeriodMs = GRACE_PERIOD_DAYS * 24 * 60 * 60 * 1000;
 
       if (!firstSeen) {
         localStorage.setItem(storageKey, now.toString());
-        setDaysRemaining(3);
-        setShowBypass(true);
+        setDaysRemaining(GRACE_PERIOD_DAYS);
       } else {
         const elapsed = now - parseInt(firstSeen);
         const remaining = Math.ceil(
-          (gracePeriod - elapsed) / (1000 * 60 * 60 * 24),
+          (gracePeriodMs - elapsed) / (1000 * 60 * 60 * 24),
         );
-
-        if (remaining > 0) {
-          setDaysRemaining(remaining);
-          setShowBypass(true);
-        } else {
-          setShowBypass(false); // Grace period expired
-        }
+        setDaysRemaining(remaining > 0 ? remaining : 0);
       }
     }
-  }, [state, update?.version]);
+  }, [state, update?.version, GRACE_PERIOD_DAYS]);
 
-  // If mandatory is true, we ignore the bypass logic
-  const canBypass = !mandatory && showBypass;
-  const isVisible = [
-    "available",
-    "downloading",
-    "installing",
-    "error",
-  ].includes(state);
+  const canBypass = !mandatory && daysRemaining !== null && daysRemaining > 0;
+
+  // Professional Visibility Logic: Don't show if dismissed unless it's mandatory
+  const isVisible = useMemo(() => {
+    const activeStates = ["available", "downloading", "installing", "error"];
+    const isStateActive = activeStates.includes(state);
+
+    if (!isStateActive) return false;
+    if (mandatory) return true;
+    return !isDismissed;
+  }, [state, mandatory, isDismissed]);
 
   return (
     <AnimatePresence>
@@ -58,7 +62,8 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-1000 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 font-mono"
         >
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-size-[100%_4px,3px_100%]" />
+          {/* CRT Scanline Effect */}
+          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,18,18,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-size-[100%_4px,3px_100%]" />
 
           <motion.div
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -74,7 +79,7 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
               </span>
               {canBypass && (
                 <span className="flex items-center gap-1 text-amber-500/80">
-                  <Clock size={10} /> {daysRemaining}D_REMAINING
+                  <Clock size={10} /> {daysRemaining}D_UNTIL_ENFORCED
                 </span>
               )}
             </div>
@@ -89,7 +94,7 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
                     Defcommand_{update?.version}
                   </h2>
                   <p className="text-[10px] text-zinc-500 tracking-widest uppercase">
-                    Deployment Ready
+                    Security Patch Ready
                   </p>
                 </div>
               </div>
@@ -105,28 +110,28 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
                       onClick={downloadAndInstall}
                       className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 text-xs font-bold uppercase tracking-[0.3em] transition-all shadow-[0_0_20px_rgba(16,185,129,0.2)]"
                     >
-                      Initialize Update
+                      Authorize Update
                     </button>
 
                     {canBypass && (
                       <button
-                        onClick={() => window.location.reload()} // Simply reloads to App, which checks for logic
+                        onClick={() => setIsDismissed(true)}
                         className="w-full bg-transparent border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-300 py-3 text-[10px] font-bold uppercase tracking-[0.2em] transition-all"
                       >
-                        Stay on current version
+                        Snooze Protocol
                       </button>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* DOWNLOAD PROGRESS */}
+              {/* PROGRESS VIEW */}
               {(state === "downloading" || state === "installing") && (
                 <div className="py-4">
                   <div className="flex justify-between text-[10px] text-emerald-500 mb-2 font-bold tracking-widest">
                     <span>
                       {state === "downloading"
-                        ? "DOWNLOADING_DATA"
+                        ? "DOWNLOADING_ASSETS"
                         : "RECONSTRUCTING_CORE"}
                     </span>
                     <span>{progress}%</span>
@@ -141,7 +146,7 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
                 </div>
               )}
 
-              {/* ERROR STATE */}
+              {/* ERROR VIEW */}
               {state === "error" && (
                 <div className="space-y-4">
                   <div className="bg-rose-500/10 border border-rose-500/30 p-4 flex items-center gap-3">
@@ -154,7 +159,7 @@ export default function UpdateOverlay({ mandatory = false }: Props) {
                     onClick={downloadAndInstall}
                     className="w-full bg-rose-600 text-white py-4 text-xs font-bold uppercase tracking-widest"
                   >
-                    Retry Protocol
+                    Retry Handshake
                   </button>
                 </div>
               )}
