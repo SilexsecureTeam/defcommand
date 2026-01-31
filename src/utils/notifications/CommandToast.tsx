@@ -16,9 +16,9 @@ export function CommandToast() {
 
   return (
     /* Wrapper: Centered at top, allows clicking through to dashboard */
-    <div className="fixed top-6 inset-x-0 flex justify-center z-100 pointer-events-none animate-in slide-in-from-top-full duration-500">
+    <div className="bg-black/30 h-full fixed top-6 inset-x-0 flex justify-center z-100 pointer-events-none animate-in slide-in-from-top-full duration-500">
       {/* The Toast: Re-enables interaction for buttons */}
-      <div className="bg-black text-white px-6 py-4 rounded-[28px] shadow-2xl flex items-center gap-10 w-full max-w-145 border border-white/10 ring-1 ring-white/5 pointer-events-auto">
+      <div className="bg-black text-white px-6 py-4 rounded-[28px] shadow-2xl flex items-center gap-10 w-full max-w-145 h-max border border-white/10 ring-1 ring-white/5 pointer-events-auto">
         <div className="flex flex-col">
           <span className="text-[10px] uppercase font-black text-[#98C630] tracking-[0.2em]">
             Directive Acknowledged
