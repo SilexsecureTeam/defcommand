@@ -12,6 +12,7 @@ import {
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useTime } from "../utils/useTime";
 import { useUpdaterContext } from "../context/UpdaterContext";
+import { isTauri } from "@tauri-apps/api/core";
 
 export default function TitleBar() {
   const appWindow = getCurrentWindow();
@@ -25,6 +26,7 @@ export default function TitleBar() {
 
   // Window maximize tracking
   useEffect(() => {
+    if (!isTauri) return;
     async function init() {
       try {
         setIsMaximized(await appWindow.isMaximized());
@@ -108,6 +110,8 @@ export default function TitleBar() {
       console.error("Close failed:", err);
     }
   };
+
+  if (!isTauri) return null;
 
   return (
     <div
