@@ -1,12 +1,4 @@
-use serde::Deserialize;
 use tauri::{image::Image, tray::TrayIconBuilder, Listener, Manager};
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "lowercase")]
-enum SystemTheme {
-    Dark,
-    Light,
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
