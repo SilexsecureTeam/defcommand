@@ -47,15 +47,15 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/32x32/Control Center G.png",
-      "icons/32x32/Control Center W.png",
-      "icons/128x128/1x/Control Center G.png",
-      "icons/128x128/1x/Control Center W.png",
-      "icons/128x128/2x/Control Center G @2x.png",
-      "icons/128x128/2x/Control Center W @2x.png",
-      "icons/128x128 ICO/ICO 1x/Control Center G.ico",
-      "icons/128x128 ICO/ICO 1x/Control Center W.ico",
-      "icons/128x128 ICO/ICO 2x/Control Center G @2x.ico"
+      "icons/32x32/g.png",
+      "icons/32x32/w.png",
+      "icons/128x128/1x/g.png",
+      "icons/128x128/1x/w.png",
+      "icons/128x128/2x/g.png",
+      "icons/128x128/2x/w.png",
+      "icons/128x128 ICO/ICO 1x/g.ico",
+      "icons/128x128 ICO/ICO 1x/w.ico",
+      "icons/128x128 ICO/ICO 2x/g @2x.ico"
     ]
   },
   "plugins": {
