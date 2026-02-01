@@ -79,7 +79,6 @@ export default function LoginScreen() {
         {/* Branding */}
         <div className="absolute top-8 left-8 z-10 flex items-center gap-3">
           <img src="/logo.png" alt="Defcomm" className="w-40" />
-          <img src="/xshield.png" alt="xshield" className="w-12" />
         </div>
 
         {/* Main Content */}
